@@ -18,12 +18,20 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#06142b",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
