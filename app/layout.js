@@ -3,7 +3,7 @@ import { SITE } from "../lib/config";
 import RolagemSuave from "../components/RolagemSuave";
 
 export const metadata = {
-  title: `${SITE.nome} — Liderança para Eficiência, Autonomia e Ordem`,
+  title: `${SITE.nome} — Um Estado que serve ao povo`,
   description: SITE.descricao,
   openGraph: {
     title: SITE.nome,
