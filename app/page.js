@@ -46,8 +46,7 @@ export default function Home() {
       <header className="topo">
         <div className="container topo-in">
           <a href="#inicio" className="marca" aria-label={`${SITE.nome} — início`}>
-            <span className="marca-sigla">LEAO</span>
-            <span className="marca-sub">Movimento Nacional</span>
+            <img src="/logo.png" alt="Movimento LEAO" className="marca-logo" />
           </a>
           <nav className="menu" aria-label="Principal">
             <a href="#manifesto">Manifesto</a>

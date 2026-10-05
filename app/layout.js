@@ -1,5 +1,6 @@
 import "./globals.css";
 import { SITE } from "../lib/config";
+import RolagemSuave from "../components/RolagemSuave";
 
 export const metadata = {
   title: `${SITE.nome} — Liderança para Eficiência, Autonomia e Ordem`,
@@ -32,7 +33,10 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <RolagemSuave />
+        {children}
+      </body>
     </html>
   );
 }
