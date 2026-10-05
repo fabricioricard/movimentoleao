@@ -38,7 +38,7 @@ section[id] { scroll-margin-top: 76px; }
 .marca { display: flex; flex-direction: column; line-height: 1; }
 .marca-sigla { font-family: var(--display); font-weight: 800; font-size: 2.3rem; letter-spacing: 0.02em; }
 .marca-sub { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; color: var(--ouro); margin-top: 2px; }
-.marca-logo { display: block; height: 62px; width: auto; border-radius: 6px; }
+.marca-logo { display: block; height: 58px; width: auto; }
 .menu { display: flex; gap: 28px; font-family: var(--display); font-weight: 600; font-size: 1.2rem; }
 .menu a:hover { color: var(--ouro); }
 .topo-acoes { display: flex; gap: 10px; }
