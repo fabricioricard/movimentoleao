@@ -1,4 +1,5 @@
 import { SITE } from "../lib/config";
+import VoltarAoTopo from "../components/VoltarAoTopo";
 
 const DESTAQUES = ["Eficiência e Serviço Estatal", "Harmonia Corporativa", "Meritocracia e Ordem"];
 
@@ -158,6 +159,7 @@ export default function Home() {
         </div>
       </footer>
 
+      <div className="flutuantes">
       <a className="flutuante" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
         <svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true">
           <path
@@ -166,6 +168,8 @@ export default function Home() {
           />
         </svg>
       </a>
+      <VoltarAoTopo />
+      </div>
     </>
   );
 }
