@@ -1,5 +1,6 @@
 import "./globals.css";
 import { SITE } from "../lib/config";
+import { Analytics } from "@vercel/analytics/next";
 import RolagemSuave from "../components/RolagemSuave";
 
 export const metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
       <body>
         <RolagemSuave />
         {children}
+        <Analytics />
       </body>
     </html>
   );
