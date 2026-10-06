@@ -3,11 +3,11 @@ import VoltarAoTopo from "../components/VoltarAoTopo";
 
 const DESTAQUES = ["Eficiência e Serviço Estatal", "Harmonia Corporativa", "Meritocracia e Ordem"];
 
-const EMBLEMA = [
-  { letra: "L", palavra: "Liderança", tom: "azul" },
+const DEGRAUS = [
+  { letra: "L", palavra: "Liderança", tom: "royal" },
   { letra: "E", palavra: "Eficiência", tom: "ouro" },
-  { letra: "A", palavra: "Autonomia", tom: "ouro" },
-  { letra: "O", palavra: "Ordem", tom: "azul" },
+  { letra: "A", palavra: "Autonomia", tom: "royal" },
+  { letra: "O", palavra: "Ordem", tom: "ouro" },
 ];
 
 const PILARES = [
@@ -55,7 +55,7 @@ export default function Home() {
             <a href="#participe">Participe</a>
           </nav>
           <div className="topo-acoes">
-            <a className="pilula pilula-branca topo-x" href={SITE.x} target="_blank" rel="noopener noreferrer">
+            <a className="pilula pilula-linha topo-x" href={SITE.x} target="_blank" rel="noopener noreferrer">
               Siga no X
             </a>
             <a className="pilula pilula-ouro" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">
@@ -75,19 +75,19 @@ export default function Home() {
                 <span className="linha">Autonomia e Ordem</span>
               </h1>
               <p className="hero-sub">Por um Estado que serve ao povo. Harmonia corporativa, meritocracia e liberdade.</p>
-              <a className="botao-linha" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">
+              <a className="botao-ouro" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">
                 Entre no grupo <Seta />
               </a>
             </div>
 
-            <div className="emblema" aria-hidden="true">
-              {EMBLEMA.map((e) => (
-                <div className={`bloco-letra bloco-${e.tom}`} key={e.letra}>
-                  <span className="bloco-l">{e.letra}</span>
-                  <span className="bloco-p">{e.palavra}</span>
-                </div>
+            <ol className="escada" aria-hidden="true">
+              {DEGRAUS.map((e, i) => (
+                <li className={`degrau degrau-${e.tom}`} style={{ "--i": i }} key={e.letra}>
+                  <span className="degrau-l">{e.letra}</span>
+                  <span className="degrau-p">{e.palavra}</span>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </section>
 
@@ -99,7 +99,7 @@ export default function Home() {
           </ul>
         </section>
 
-        <section id="manifesto" className="bloco bloco-preto">
+        <section id="manifesto" className="bloco bloco-gelo">
           <div className="container manifesto">
             <p className="manifesto-frase">
               O Brasil não suporta mais um Estado pesado, ineficiente e voltado para si mesmo. O LEAO nasce para{" "}
@@ -111,7 +111,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="pilares" className="bloco bloco-claro">
+        <section id="pilares" className="bloco bloco-marinho">
           <div className="container">
             <h2 className="titulo-secao">Os 4 pilares do LEAO</h2>
             <ol className="pilares">
@@ -130,17 +130,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="participe" className="bloco bloco-ouro">
+        <section id="participe" className="bloco bloco-royal">
           <div className="container chamada">
             <h2 className="chamada-titulo">Nascemos para liderar a reconstrução nacional.</h2>
             <p className="chamada-texto">
               Construindo o futuro do Brasil. Entre no grupo e acompanhe tudo em primeira mão.
             </p>
             <div className="chamada-acoes">
-              <a className="pilula pilula-preta" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">
+              <a className="pilula pilula-ouro pilula-grande" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">
                 Entrar no grupo do WhatsApp
               </a>
-              <a className="pilula pilula-contorno" href={SITE.x} target="_blank" rel="noopener noreferrer">
+              <a className="pilula pilula-linha pilula-grande" href={SITE.x} target="_blank" rel="noopener noreferrer">
                 Seguir no X
               </a>
             </div>

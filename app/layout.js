@@ -3,6 +3,7 @@ import { SITE } from "../lib/config";
 import RolagemSuave from "../components/RolagemSuave";
 
 export const metadata = {
+  metadataBase: new URL(SITE.url),
   title: `${SITE.nome} — Um Estado que serve ao povo`,
   description: SITE.descricao,
   openGraph: {
@@ -19,7 +20,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#000000",
+  themeColor: "#050e24",
 };
 
 export default function RootLayout({ children }) {
