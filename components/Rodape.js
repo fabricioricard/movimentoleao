@@ -9,6 +9,7 @@ export default function Rodape() {
           <strong>LEAO</strong> Liderança para Eficiência, Autonomia e Ordem
         </p>
         <div className="rodape-links">
+          <Link href="/manifesto">Manifesto</Link>
           <Link href="/posicoes">Posições</Link>
           <a href={SITE.x} target="_blank" rel="noopener noreferrer">
             @MovimentoLEAO

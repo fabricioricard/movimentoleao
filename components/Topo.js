@@ -14,7 +14,7 @@ export default function Topo({ home = false }) {
           <img src="/logo.png" alt="Movimento LEAO" className="marca-logo" />
         </A>
         <nav className="menu" aria-label="Principal">
-          <A href={ancora("manifesto")}>Manifesto</A>
+          <Link href="/manifesto">Manifesto</Link>
           <A href={ancora("pilares")}>Pilares</A>
           <Link href="/posicoes">Posições</Link>
           <A href={ancora("participe")}>Participe</A>

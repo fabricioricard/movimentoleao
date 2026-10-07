@@ -91,6 +91,9 @@ export default function Home() {
             <p className="manifesto-apoio">
               Defendemos a harmonia entre as forças produtivas, o trabalho, a ciência e a ordem.
             </p>
+            <Link className="pilula pilula-royal manifesto-link" href="/manifesto">
+              Ler o manifesto completo
+            </Link>
           </div>
         </section>
 

@@ -252,3 +252,44 @@ section[id] { scroll-margin-top: 82px; }
   .pilar { gap: 18px; padding: 22px 0; }
   .pilar-corpo p { font-size: 1.05rem; }
 }
+
+/* ---------- Página do manifesto ---------- */
+.sigla-chamada { max-width: 36em; margin-bottom: 28px; font-size: 1.2rem; color: #dbe5fb; }
+.sigla-lista { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sigla-lista li { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-top: 6px solid var(--ouro); }
+.sigla-royal { background: var(--royal); }
+.sigla-ouro { background: #0c2150; }
+.sigla-l { font-family: var(--display); font-weight: 800; font-size: 3.4rem; line-height: 1; color: #ffe08a; }
+.sigla-p { font-family: var(--display); font-weight: 700; font-size: 1.5rem; text-transform: uppercase; }
+
+.causa { list-style: none; display: grid; gap: 16px; }
+.causa-item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 24px; align-items: start; background: #fff; border: 2px solid rgba(11, 21, 48, 0.12); border-left: 8px solid var(--ouro); padding: 26px 28px; }
+.causa-n { font-family: var(--display); font-weight: 800; font-size: 4.2rem; line-height: .9; color: var(--royal); min-width: .6em; }
+.causa-item h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 2rem; line-height: 1.05; margin-bottom: 8px; }
+.causa-item p { color: var(--suave); font-size: 1.1rem; max-width: 46em; }
+
+.fases { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.fase { background: var(--m800); border-top: 6px solid rgba(255, 255, 255, 0.25); padding: 24px 22px 28px; }
+.fase-atual { background: var(--royal); border-top-color: var(--ouro); }
+.fase-rotulo { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #ffe08a; font-size: 1.1rem; margin-bottom: 8px; }
+.fase-rotulo em { font-style: normal; background: var(--ouro); color: var(--m950); padding: 2px 10px; border-radius: 999px; font-size: .9rem; letter-spacing: .04em; }
+.fase h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 2rem; line-height: 1.05; margin-bottom: 10px; overflow-wrap: anywhere; }
+.fase p { color: #dbe5fb; }
+
+.esperamos .lateral p { color: var(--tinta); }
+
+@media (max-width: 1000px) {
+  .sigla-lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fases { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .causa-item { grid-template-columns: 1fr; gap: 6px; padding: 22px 20px; }
+  .causa-n { font-size: 3.2rem; }
+}
+
+.pilula-royal { background: var(--royal); color: #fff; }
+.pilula-royal:hover { background: var(--m800); }
+.manifesto-link { margin-top: 28px; }
+@media (max-width: 560px) {
+  .sigla-lista { grid-template-columns: 1fr; }
+}
