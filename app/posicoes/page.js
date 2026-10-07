@@ -6,30 +6,35 @@ import Rodape from "../../components/Rodape";
 export const metadata = {
   title: "Posições do movimento — LEAO",
   description:
-    "Quem faz o quê no Movimento LEAO e como se chega a cada posição: Novato, Líder Municipal, Líder Estadual, Líder Nacional, Propaganda, Conselho e Honraria.",
+    "Quem faz o quê no Movimento LEAO e como se chega a cada posição: Recruta, Líder Municipal, Líder Estadual, Líder Regional, Líder Nacional, Propaganda, Conselho e Honraria.",
 };
 
 // A escada: posições em sequência, uma depois da outra.
 const ESCADA = [
   {
-    nome: "Novato",
+    nome: "Recruta",
     quem: "Acabou de entrar.",
-    como: "Cadastro e 1ª missão cumprida.",
+    como: "Basta entrar, sem outro requisito.",
   },
   {
     nome: "Líder Municipal",
     quem: "Lidera o grupo da sua cidade.",
-    como: "Constância por 30 a 60 dias, mais indicação e validação do grupo.",
+    como: "Escolhido pelo Líder Estadual.",
   },
   {
     nome: "Líder Estadual",
     quem: "Coordena os líderes municipais do estado.",
-    como: "Cidades ativas sob sua liderança e mandato fixo.",
+    como: "Escolhido pelo Líder Regional.",
+  },
+  {
+    nome: "Líder Regional",
+    quem: "Coordena os líderes estaduais da sua região.",
+    como: "Escolhido pelo Líder Nacional.",
   },
   {
     nome: "Líder Nacional",
     quem: "Coordena o movimento em nível nacional.",
-    como: "Escolhido pelo Conselho, com mandato fixo.",
+    como: "Escolhido pelo Conselho, com mandato de 4 anos.",
   },
 ];
 
@@ -38,12 +43,12 @@ const LATERAIS = [
   {
     nome: "Propaganda",
     quem: "Cuida de conteúdo, discurso e redes.",
-    como: "Função aberta a qualquer nível, por seleção.",
+    como: "Escolhidos pelo Líder Nacional para desempenhar essa função.",
   },
   {
     nome: "Conselho",
     quem: "Decide os rumos do movimento.",
-    como: "3 a 5 pessoas, eleitas pelos líderes, com mandato fixo.",
+    como: "Escolhidos por todos os membros do grupo: 5 pessoas, com mandato de 4 anos.",
   },
   {
     nome: "Honraria",
@@ -73,7 +78,7 @@ export default function Posicoes() {
             <h2 className="titulo-secao junto" id="titulo-escada">
               A escada
             </h2>
-            <p className="secao-intro">Quatro posições, uma depois da outra. Cada degrau tem uma função e um jeito de chegar.</p>
+            <p className="secao-intro">Cinco posições, uma depois da outra. Cada degrau tem uma função e um jeito de chegar.</p>
             <ol className="sobe">
               {ESCADA.map((p, i) => (
                 <li className="sobe-card" style={{ "--i": i }} key={p.nome}>

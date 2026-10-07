@@ -196,18 +196,19 @@ section[id] { scroll-margin-top: 82px; }
 .pilares-link p { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; }
 
 /* A escada: os cards sobem da esquerda para a direita, com a base alinhada */
-.sobe { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: end; }
+.sobe { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; align-items: end; }
 .sobe-card {
-  min-height: calc(340px + var(--i) * 56px);
+  min-height: calc(300px + var(--i) * 50px);
   display: flex; flex-direction: column; gap: 12px;
-  padding: 26px 24px 30px; border-top: 6px solid var(--ouro); color: #fff;
+  padding: 24px 20px 28px; border-top: 6px solid var(--ouro); color: #fff;
 }
 .sobe-card:nth-child(1) { background: #0c2150; }
-.sobe-card:nth-child(2) { background: #12306f; }
-.sobe-card:nth-child(3) { background: #19408f; }
-.sobe-card:nth-child(4) { background: var(--royal); }
-.sobe-n { font-family: var(--display); font-weight: 800; font-size: 4.6rem; line-height: 0.8; color: #ffe08a; }
-.sobe-card h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 1.9rem; line-height: 1.05; overflow-wrap: anywhere; }
+.sobe-card:nth-child(2) { background: #102964; }
+.sobe-card:nth-child(3) { background: #143377; }
+.sobe-card:nth-child(4) { background: #194192; }
+.sobe-card:nth-child(5) { background: var(--royal); }
+.sobe-n { font-family: var(--display); font-weight: 800; font-size: 4.2rem; line-height: 0.8; color: #ffe08a; }
+.sobe-card h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 1.7rem; line-height: 1.05; overflow-wrap: anywhere; }
 .sobe-card dt, .lateral dt { font-weight: 600; font-size: 0.95rem; }
 .sobe-card dt { color: #ffe08a; }
 .sobe-card dd { color: #dbe5fb; margin: 2px 0 14px; }
@@ -221,9 +222,11 @@ section[id] { scroll-margin-top: 82px; }
 
 .rodape-links { display: flex; flex-wrap: wrap; gap: 22px; }
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .sobe { grid-template-columns: 1fr; gap: 12px; }
   .sobe-card { min-height: 0; margin-left: calc(var(--i) * 12px); }
+}
+@media (max-width: 1000px) {
   .laterais { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
