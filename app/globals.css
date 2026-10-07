@@ -184,6 +184,52 @@ section[id] { scroll-margin-top: 82px; }
 }
 .flutuante:hover { transform: scale(1.06); }
 
+/* ---------- Página de posições ---------- */
+.pagina-hero { padding: 72px 0 80px; }
+.pagina-hero .hero-sub { margin-bottom: 0; }
+.titulo-secao.junto { margin-bottom: 14px; }
+.secao-intro { max-width: 36em; margin-bottom: 48px; font-size: 1.2rem; }
+.bloco-marinho .secao-intro { color: #b7c3de; }
+.bloco-gelo .secao-intro { color: var(--suave); }
+
+.pilares-link { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; margin-top: 44px; }
+.pilares-link p { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; }
+
+/* A escada: os cards sobem da esquerda para a direita, com a base alinhada */
+.sobe { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: end; }
+.sobe-card {
+  min-height: calc(340px + var(--i) * 56px);
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 26px 24px 30px; border-top: 6px solid var(--ouro); color: #fff;
+}
+.sobe-card:nth-child(1) { background: #0c2150; }
+.sobe-card:nth-child(2) { background: #12306f; }
+.sobe-card:nth-child(3) { background: #19408f; }
+.sobe-card:nth-child(4) { background: var(--royal); }
+.sobe-n { font-family: var(--display); font-weight: 800; font-size: 4.6rem; line-height: 0.8; color: #ffe08a; }
+.sobe-card h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 1.9rem; line-height: 1.05; overflow-wrap: anywhere; }
+.sobe-card dt, .lateral dt { font-weight: 600; font-size: 0.95rem; }
+.sobe-card dt { color: #ffe08a; }
+.sobe-card dd { color: #dbe5fb; margin: 2px 0 14px; }
+
+/* Posições ao lado da escada */
+.laterais { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.lateral { background: #fff; border: 2px solid rgba(11, 21, 48, 0.12); border-left: 8px solid var(--ouro); padding: 26px 24px 18px; }
+.lateral h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 1.9rem; line-height: 1.05; margin-bottom: 14px; }
+.lateral dt { color: var(--royal); }
+.lateral dd { color: var(--tinta); margin: 2px 0 14px; }
+
+.rodape-links { display: flex; flex-wrap: wrap; gap: 22px; }
+
+@media (max-width: 1000px) {
+  .sobe { grid-template-columns: 1fr; gap: 12px; }
+  .sobe-card { min-height: 0; margin-left: calc(var(--i) * 12px); }
+  .laterais { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .pagina-hero { padding: 48px 0 56px; }
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 900px) {
   .hero { padding: 56px 0 64px; }

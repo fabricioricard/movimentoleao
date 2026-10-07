@@ -2,6 +2,7 @@ import "./globals.css";
 import { SITE } from "../lib/config";
 import { Analytics } from "@vercel/analytics/next";
 import RolagemSuave from "../components/RolagemSuave";
+import Flutuantes from "../components/Flutuantes";
 
 export const metadata = {
   metadataBase: new URL(SITE.url),
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
       <body>
         <RolagemSuave />
         {children}
+        <Flutuantes />
         <Analytics />
       </body>
     </html>
