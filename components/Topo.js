@@ -2,22 +2,21 @@ import Link from "next/link";
 import { SITE } from "../lib/config";
 
 // Topo compartilhado. Na home (home=true) os links rolam dentro da página;
-// nas outras páginas eles levam de volta para a home.
+// nas outras páginas eles abrem /pilares e /participe, que mostram a home já na seção.
 export default function Topo({ home = false }) {
   const A = home ? "a" : Link;
-  const ancora = (id) => (home ? `#${id}` : `/#${id}`);
 
   return (
     <header className="topo">
       <div className="container topo-in">
-        <A href={home ? "#inicio" : "/"} className="marca" aria-label={`${SITE.nome} — início`}>
+        <A href="/" className="marca" aria-label={`${SITE.nome} — início`}>
           <img src="/logo.png" alt="Movimento LEAO" className="marca-logo" />
         </A>
         <nav className="menu" aria-label="Principal">
           <Link href="/manifesto">Manifesto</Link>
-          <A href={ancora("pilares")}>Pilares</A>
+          <A href="/pilares">Pilares</A>
           <Link href="/posicoes">Posições</Link>
-          <A href={ancora("participe")}>Participe</A>
+          <A href="/participe">Participe</A>
         </nav>
         <div className="topo-acoes">
           <a className="pilula pilula-linha topo-x" href={SITE.x} target="_blank" rel="noopener noreferrer">
