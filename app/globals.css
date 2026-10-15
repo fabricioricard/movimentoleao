@@ -293,3 +293,8 @@ section[id] { scroll-margin-top: 82px; }
 @media (max-width: 560px) {
   .sigla-lista { grid-template-columns: 1fr; }
 }
+
+/* ---------- Chamada da calculadora na home ---------- */
+.calc-chamada-in { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.calc-chamada .secao-intro { margin-bottom: 0; }
+.calc-chamada .titulo-secao { font-size: clamp(2rem, 5vw, 3rem); }

@@ -100,6 +100,18 @@ export default function Inicio({ alvo }) {
           </div>
         </section>
 
+        <section className="bloco bloco-gelo calc-chamada" aria-labelledby="calc-chamada-t">
+          <div className="container calc-chamada-in">
+            <div>
+              <h2 className="titulo-secao junto" id="calc-chamada-t">Até que dia você trabalha para o Estado?</h2>
+              <p className="secao-intro">Digite o seu salário e descubra o seu Dia da Liberdade. Leva dez segundos.</p>
+            </div>
+            <Link className="pilula pilula-ouro pilula-grande" href="/calculadora">
+              Usar a calculadora
+            </Link>
+          </div>
+        </section>
+
         <section id="pilares" className="bloco bloco-marinho">
           <div className="container">
             <h2 className="titulo-secao">Os 4 pilares do LEAO</h2>

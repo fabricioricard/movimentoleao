@@ -16,6 +16,7 @@ export default function Topo({ home = false }) {
           <Link href="/manifesto">Manifesto</Link>
           <A href="/pilares">Pilares</A>
           <Link href="/posicoes">Posições</Link>
+          <Link href="/calculadora">Calculadora</Link>
           <A href="/participe">Participe</A>
         </nav>
         <div className="topo-acoes">
