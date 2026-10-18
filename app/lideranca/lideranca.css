@@ -1,0 +1,90 @@
+/* ---------- Placar ---------- */
+.org-bloco { padding-top: 72px; }
+.org-placar { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 52px; }
+.org-placar li { background: rgba(255, 255, 255, 0.07); border-left: 5px solid var(--ouro); padding: 10px 20px 10px 16px; display: flex; align-items: baseline; gap: 12px; }
+.org-placar b { font-family: var(--display); font-weight: 800; font-size: 2.6rem; line-height: 1; color: #ffe08a; }
+.org-placar span { color: #c5cfe6; }
+
+/* ---------- Organograma ---------- */
+.org { --linha: rgba(217, 162, 27, 0.75); display: flex; flex-direction: column; align-items: center; }
+.org-topo { width: min(360px, 100%); position: relative; padding-bottom: 28px; }
+.org-topo::after { content: ""; position: absolute; left: 50%; bottom: 0; height: 28px; border-left: 3px solid var(--linha); }
+
+.org-regioes { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); width: 100%; }
+.org-regiao { position: relative; padding: 28px 14px 0; display: flex; flex-direction: column; align-items: center; }
+/* barra horizontal que liga o Líder Nacional às regiões */
+.org-regiao::before { content: ""; position: absolute; top: 0; left: 0; right: 50%; border-top: 3px solid var(--linha); }
+.org-regiao::after { content: ""; position: absolute; top: 0; left: 50%; right: 0; height: 28px; border-top: 3px solid var(--linha); border-left: 3px solid var(--linha); }
+.org-regiao:first-child::before { display: none; }
+.org-regiao:last-child::after { right: 50%; }
+.org-regiao:only-child::after { right: auto; }
+.org-regiao > .org-card { width: min(340px, 100%); }
+
+.org-estados { width: min(340px, 100%); margin-top: 22px; margin-left: 0; padding-left: 20px; border-left: 3px solid var(--linha); display: grid; gap: 22px; }
+.org-estado { position: relative; }
+.org-estado::before { content: ""; position: absolute; left: -23px; top: 34px; width: 20px; border-top: 3px solid var(--linha); }
+.org-cidades { margin-top: 14px; padding-left: 20px; border-left: 3px solid var(--linha); display: grid; gap: 10px; }
+.org-cidades li { position: relative; }
+.org-cidades li::before { content: ""; position: absolute; left: -23px; top: 28px; width: 20px; border-top: 3px solid var(--linha); }
+
+/* cartões */
+.org-card { display: flex; gap: 14px; align-items: center; background: var(--m800); border: 1px solid rgba(255, 255, 255, 0.14); border-top: 5px solid var(--royal); border-radius: 4px; padding: 14px 16px; }
+.org-n-nacional { border-top-color: var(--ouro); background: #123066; }
+.org-n-regional { border-top-color: #5b8fe0; }
+.org-n-estadual { border-top-color: #3b78d4; }
+.org-n-municipal { border-top-color: #2a5fb5; }
+.org-compacto { padding: 10px 12px; border-top-width: 4px; gap: 12px; }
+.org-texto { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.org-cargo { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; color: #b7c3de; }
+.org-lugar { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1.55rem; line-height: 1.05; overflow-wrap: anywhere; }
+.org-compacto .org-lugar { font-size: 1.25rem; }
+.org-pessoa { font-weight: 700; color: #fff; }
+.org-vaga-tag { display: inline-block; margin-top: 4px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #ffe08a; border: 1px dashed var(--ouro); background: rgba(217, 162, 27, 0.12); padding: 2px 10px; border-radius: 999px; }
+.org-como { font-size: 0.88rem; color: #b7c3de; line-height: 1.4; margin-top: 4px; }
+
+.org-avatar { flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; }
+.org-compacto .org-avatar { width: 42px; height: 42px; }
+.org-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.org-avatar-vaga { border: 2px dashed var(--ouro); background: rgba(217, 162, 27, 0.08); }
+.org-avatar-vaga svg { width: 62%; height: 62%; fill: rgba(242, 193, 78, 0.55); }
+.org-avatar-nome { background: var(--royal); color: #fff; font-family: var(--display); font-weight: 800; font-size: 1.4rem; }
+
+.org-nota { margin-top: 36px; max-width: 46em; text-align: center; color: #b7c3de; font-size: 0.97rem; }
+
+.org-recrutas { margin-top: 28px; width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 22px; background: rgba(255, 255, 255, 0.06); border: 1px dashed rgba(217, 162, 27, 0.7); border-radius: 4px; padding: 22px 26px; }
+.org-recrutas > div { flex: 1 1 320px; min-width: 0; }
+.org-recrutas .org-lugar { margin: 2px 0 4px; }
+
+/* ---------- Ao lado da escada ---------- */
+.org-lat-grade { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.org-lat-card { background: #fff; border-left: 6px solid var(--ouro); border-radius: 4px; padding: 24px; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.07); display: flex; flex-direction: column; }
+.org-lat-card h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 2rem; line-height: 1; }
+.org-lat-quem { color: var(--suave); margin: 6px 0 16px; }
+.org-lat-vagas { display: grid; gap: 8px; margin-bottom: 16px; }
+.org-lat-vagas li { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+.org-lat-vagas .org-avatar { width: 38px; height: 38px; }
+.org-lat-vaga span { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8a5a00; font-weight: 700; }
+.org-lat-vaga .org-avatar-vaga { background: rgba(217, 162, 27, 0.12); }
+.org-lat-vaga .org-avatar-vaga svg { fill: rgba(176, 124, 12, 0.7); }
+.org-lat-como { margin-top: auto; padding-top: 12px; border-top: 1px solid #e4e9f3; font-size: 0.93rem; color: var(--suave); }
+.org-lat-como b { color: var(--tinta); }
+
+@media (max-width: 900px) {
+  .org-regioes { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .org-regiao { padding: 0 0 28px; align-items: stretch; }
+  .org-regiao::before, .org-regiao::after { display: none; }
+  .org-regiao > .org-card, .org-estados { width: 100%; }
+  .org-topo { width: 100%; padding-bottom: 28px; }
+  .org-lat-grade { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .org-card { padding: 12px; gap: 12px; }
+  .org-avatar { width: 48px; height: 48px; }
+  .org-lugar { font-size: 1.35rem; }
+  .org-estados { padding-left: 14px; }
+  .org-estado::before { left: -17px; width: 14px; }
+  .org-cidades { padding-left: 14px; }
+  .org-cidades li::before { left: -17px; width: 14px; }
+  .org-recrutas { padding: 18px 16px; }
+  .org-placar b { font-size: 2.1rem; }
+}

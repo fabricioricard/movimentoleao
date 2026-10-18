@@ -298,3 +298,12 @@ section[id] { scroll-margin-top: 82px; }
 .calc-chamada-in { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
 .calc-chamada .secao-intro { margin-bottom: 0; }
 .calc-chamada .titulo-secao { font-size: clamp(2rem, 5vw, 3rem); }
+
+/* Cabeçalho: com mais itens no menu, esconde o botão do X e depois o menu antes de estourar a largura */
+@media (max-width: 1100px) {
+  .menu { gap: 18px; }
+  .topo-x { display: none; }
+}
+@media (max-width: 960px) {
+  .menu { display: none; }
+}
