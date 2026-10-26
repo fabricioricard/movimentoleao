@@ -7,7 +7,7 @@
 
 /* ---------- Organograma ---------- */
 .org { --linha: rgba(217, 162, 27, 0.75); display: flex; flex-direction: column; align-items: center; }
-.org-topo { width: min(360px, 100%); position: relative; padding-bottom: 28px; }
+.org-topo { width: min(420px, 100%); position: relative; padding-bottom: 28px; }
 .org-topo::after { content: ""; position: absolute; left: 50%; bottom: 0; height: 28px; border-left: 3px solid var(--linha); }
 
 .org-regioes { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); width: 100%; }
@@ -87,4 +87,14 @@
   .org-cidades li::before { left: -17px; width: 14px; }
   .org-recrutas { padding: 18px 16px; }
   .org-placar b { font-size: 2.1rem; }
+}
+
+/* Líder Nacional: foto maior e nota de rodapé */
+.org-n-nacional .org-avatar { width: 84px; height: 84px; border: 3px solid var(--ouro); }
+.org-ast { color: #ffe08a; font-size: 1em; margin-left: 2px; }
+.org-n-nacional .org-pessoa { font-size: 1.15rem; }
+.org-rodape-nota { margin-top: 10px; font-size: 0.86rem; line-height: 1.45; color: #b7c3de; text-align: left; }
+.org-rodape-nota span { color: #ffe08a; font-weight: 700; }
+@media (max-width: 560px) {
+  .org-n-nacional .org-avatar { width: 68px; height: 68px; }
 }

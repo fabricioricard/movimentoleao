@@ -35,7 +35,7 @@ function Avatar({ ocupante }) {
 }
 
 function Pessoa({ ocupante }) {
-  if (ocupante && ocupante.nome) return <span className="org-pessoa">{ocupante.nome}</span>;
+  if (ocupante && ocupante.nome) return <span className="org-pessoa">{ocupante.nome}{ocupante.asterisco ? <sup className="org-ast" aria-label="ver nota">*</sup> : null}</span>;
   return <span className="org-vaga-tag">Vaga aberta</span>;
 }
 
@@ -85,7 +85,7 @@ export default function Lideranca() {
         <div className="container">
           <h2 className="titulo-secao junto" id="org-titulo">Quem lidera hoje</h2>
           <p className="secao-intro">
-            O LEAO está começando e ninguém foi escolhido ainda. Toda posição abaixo está com a vaga aberta.
+            O LEAO está começando. O fundador lidera por enquanto e as demais posições estão com a vaga aberta.
           </p>
 
           <ul className="org-placar" aria-label="Resumo">
@@ -96,7 +96,10 @@ export default function Lideranca() {
 
           <div className="org" style={{ "--n": REGIOES.length }}>
             <div className="org-topo">
-              <Cartao cargo="Líder Nacional" lugar="Brasil" como={COMO.nacional} ocupante={NACIONAL.ocupante} nivel="nacional" />
+              <Cartao cargo="Líder Nacional" lugar="Brasil" como={(NACIONAL.ocupante && NACIONAL.ocupante.como) || COMO.nacional} ocupante={NACIONAL.ocupante} nivel="nacional" />
+              {NACIONAL.nota && NACIONAL.ocupante && NACIONAL.ocupante.asterisco && (
+                <p className="org-rodape-nota"><span aria-hidden="true">*</span> {NACIONAL.nota}</p>
+              )}
             </div>
 
             <ul className="org-regioes">
@@ -141,7 +144,7 @@ export default function Lideranca() {
       <section className="bloco bloco-gelo org-lateral" aria-labelledby="org-lat-titulo">
         <div className="container">
           <h2 className="titulo-secao junto" id="org-lat-titulo">Ao lado da escada</h2>
-          <p className="secao-intro">Propaganda, Conselho e Honraria também estão com as vagas abertas.</p>
+          <p className="secao-intro">Propaganda, Conselho e Honraria estão com as vagas abertas.</p>
           <ul className="org-lat-grade">
             {LATERAIS.map((l) => (
               <li className="org-lat-card" key={l.nome}>
