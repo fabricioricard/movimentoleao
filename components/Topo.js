@@ -19,6 +19,7 @@ export default function Topo({ home = false }) {
           <Link href="/lideranca">Liderança</Link>
           <Link href="/calculadora">Calculadora</Link>
           <A href="/participe">Participe</A>
+          <Link href="/doacoes">Doe</Link>
         </nav>
         <div className="topo-acoes">
           <a className="pilula pilula-linha topo-x" href={SITE.x} target="_blank" rel="noopener noreferrer">

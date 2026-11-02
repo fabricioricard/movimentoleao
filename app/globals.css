@@ -300,10 +300,10 @@ section[id] { scroll-margin-top: 82px; }
 .calc-chamada .titulo-secao { font-size: clamp(2rem, 5vw, 3rem); }
 
 /* Cabeçalho: com mais itens no menu, esconde o botão do X e depois o menu antes de estourar a largura */
-@media (max-width: 1100px) {
+@media (max-width: 1160px) {
   .menu { gap: 18px; }
   .topo-x { display: none; }
 }
-@media (max-width: 960px) {
+@media (max-width: 1000px) {
   .menu { display: none; }
 }
