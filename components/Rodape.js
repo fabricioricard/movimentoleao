@@ -14,6 +14,9 @@ export default function Rodape() {
           <Link href="/lideranca">Liderança</Link>
           <Link href="/doacoes">Doações</Link>
           <Link href="/calculadora">Calculadora</Link>
+          <Link href="/noticias">Revista</Link>
+          <Link href="/camisas">Camisas</Link>
+          <Link href="/contato">Contato</Link>
           <a href={SITE.x} target="_blank" rel="noopener noreferrer">
             @MovimentoLEAO
           </a>

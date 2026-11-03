@@ -1,0 +1,23 @@
+.cam-bloco { padding-top: 64px; padding-bottom: 80px; }
+.cam-grade { margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.cam-card { background: #fff; border-top: 6px solid var(--ouro); border-radius: 6px; padding: 18px 18px 24px; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.08); display: grid; gap: 8px; align-content: start; }
+.cam-foto { aspect-ratio: 600 / 731; background: #fff; border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+.cam-foto img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.cam-card h3 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 1.6rem; line-height: 1.05; color: var(--tinta); }
+.cam-card p { color: var(--suave); }
+.cam-breve { border-top-color: var(--royal); background: transparent; box-shadow: none; border: 2px dashed #b9c5de; border-top-width: 2px; }
+.cam-foto-breve { background: var(--gelo); display: grid; place-items: center; }
+.cam-foto-breve span { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 2rem; color: var(--suave); }
+.cam-como { padding-top: 64px; padding-bottom: 72px; }
+.cam-como-grade { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: center; }
+.cam-texto { font-size: 1.3rem; color: #d3dcef; max-width: 34em; }
+.cam-texto b { color: #ffe08a; }
+.cam-acoes { display: grid; gap: 14px; justify-items: start; }
+.cam-link { color: #ffe08a; text-decoration: underline; }
+@media (max-width: 900px) {
+  .cam-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cam-como-grade { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+@media (max-width: 560px) {
+  .cam-grade { grid-template-columns: minmax(0, 1fr); }
+}

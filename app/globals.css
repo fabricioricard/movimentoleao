@@ -307,3 +307,9 @@ section[id] { scroll-margin-top: 82px; }
 @media (max-width: 1000px) {
   .menu { display: none; }
 }
+
+/* Menu com 9 itens: mais compacto e some mais cedo */
+.menu { gap: 16px; font-size: 1.1rem; }
+.topo-in { gap: 16px; }
+@media (max-width: 1360px) { .topo-x { display: none; } }
+@media (max-width: 1140px) { .menu { display: none; } }

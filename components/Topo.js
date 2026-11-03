@@ -18,6 +18,8 @@ export default function Topo({ home = false }) {
           <Link href="/posicoes">Posições</Link>
           <Link href="/lideranca">Liderança</Link>
           <Link href="/calculadora">Calculadora</Link>
+          <Link href="/noticias">Revista</Link>
+          <Link href="/camisas">Camisas</Link>
           <A href="/participe">Participe</A>
           <Link href="/doacoes">Doe</Link>
         </nav>
