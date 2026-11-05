@@ -1,0 +1,61 @@
+.fis-bloco { padding-top: 64px; padding-bottom: 80px; }
+.fis-placar { margin: 32px 0 36px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; list-style: none; }
+.fis-placar li { background: #fff; border-top: 6px solid var(--ouro, #d9a21b); border-radius: 6px; padding: 16px 18px; display: grid; gap: 2px; box-shadow: 0 8px 24px rgba(8, 24, 58, 0.07); }
+.fis-placar b { font-family: var(--display, system-ui, sans-serif); font-weight: 800; font-size: 2.6rem; line-height: 1; color: var(--tinta, #0b1530); }
+.fis-placar span { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--suave, #4c5a78); }
+
+.fis-lista { display: grid; gap: 28px; list-style: none; }
+.fis-caso { background: #fff; border-left: 8px solid var(--royal, #1f54a8); border-radius: 6px; padding: 28px 32px; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.08); display: grid; gap: 18px; scroll-margin-top: 90px; }
+.fis-pedidos { list-style: none; display: grid; gap: 16px; }
+.fis-pedido { border: 2px solid #dfe5f1; border-radius: 6px; padding: 18px 20px; display: grid; gap: 14px; }
+.fis-topo { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.fis-rot { display: block; font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--suave, #4c5a78); }
+.fis-orgao { font-size: 1.15rem; color: var(--tinta, #0b1530); }
+.fis-copia { font-size: 0.95rem; color: var(--suave, #4c5a78); }
+.fis-copia b { color: var(--tinta, #0b1530); }
+.fis-ref { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--royal, #1f54a8); }
+.fis-pilulas { display: flex; flex-wrap: wrap; gap: 8px; }
+.fis-sit { font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 99px; padding: 4px 12px; }
+.fis-espera { background: #fff1cc; color: #7a5200; }
+.fis-ok { background: #d8f2e0; color: #11592c; }
+.fis-parcial { background: #dbe8ff; color: #153f86; }
+.fis-alerta { background: #fddede; color: #8a1c24; }
+.fis-caso h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.05; color: var(--tinta, #0b1530); }
+
+.fis-campos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 22px; }
+.fis-campo { display: grid; gap: 3px; align-content: start; }
+.fis-largo { grid-column: 1 / -1; }
+.fis-campo dt { font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--suave, #4c5a78); }
+.fis-campo dd { font-weight: 600; color: var(--tinta, #0b1530); overflow-wrap: anywhere; }
+.fis-campo dd em { font-weight: 500; font-style: normal; color: var(--suave, #4c5a78); }
+.fis-campo dd ul { list-style: none; display: grid; gap: 4px; }
+
+.fis-resposta { background: var(--gelo, #f2f5fa); border-left: 5px solid #c4cde0; border-radius: 4px; padding: 14px 18px; display: grid; gap: 6px; color: var(--tinta, #0b1530); }
+.fis-resposta-ok { background: #e8f6ec; border-left-color: #25a05a; }
+.fis-resposta p { color: var(--suave, #4c5a78); }
+.fis-resposta-ok p { color: var(--tinta, #0b1530); }
+.fis-resp-meta { font-size: 0.9rem; color: var(--suave, #4c5a78); }
+.fis-resp-meta a { color: var(--royal, #1f54a8); font-weight: 700; text-decoration: underline; }
+
+.fis-pontos summary { cursor: pointer; font-weight: 700; color: var(--royal, #1f54a8); }
+.fis-pontos ol { margin: 12px 0 0 1.3em; display: grid; gap: 8px; color: var(--tinta, #0b1530); }
+.fis-hist { list-style: none; display: grid; gap: 6px; font-size: 0.95rem; color: var(--suave, #4c5a78); border-top: 1px solid #dfe5f1; padding-top: 12px; }
+.fis-hist b { color: var(--tinta, #0b1530); }
+.fis-materia { justify-self: start; color: var(--royal, #1f54a8); font-weight: 700; }
+.fis-materia:hover { text-decoration: underline; }
+
+.fis-fim { padding-top: 40px; padding-bottom: 44px; }
+.fis-fim-in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+.fis-fim-in p { font-size: 1.2rem; color: #d3dcef; }
+.fis-fim-links { display: flex; flex-wrap: wrap; gap: 22px; font-family: var(--display, system-ui, sans-serif); font-weight: 700; font-size: 1.3rem; text-transform: uppercase; }
+.fis-fim-links a { color: #ffe08a; text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .fis-placar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fis-campos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .fis-caso { padding: 22px 18px; }
+  .fis-pedido { padding: 14px 14px; }
+  .fis-campos { grid-template-columns: minmax(0, 1fr); }
+}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Topo from "../../components/Topo";
 import Rodape from "../../components/Rodape";
 import Noticias from "../../components/Noticias";
@@ -21,6 +22,7 @@ export default function PaginaNoticias() {
               <span className="linha destaque">movimento</span>
             </h1>
             <p className="hero-sub">As principais atitudes do LEAO, registradas.</p>
+            <Link className="pilula pilula-ouro" href="/fiscalizacoes">Acompanhamento das fiscalizações</Link>
           </div>
         </section>
         <Noticias />
