@@ -18,8 +18,11 @@ export default function Fiscalizacoes() {
     ...c,
     pedidos: c.pedidos.map((p) => ({ ...p, vencido: p.situacao === "aguardando" && !!p.prazo && p.prazo < hoje })),
   }));
-  const todos = casos.flatMap((c) => c.pedidos);
-  const n = (f) => todos.filter(f).length;
+  // Situação de cada fiscalização: com resposta se algum órgão respondeu; sem resposta no prazo se algum prazo venceu; senão, aguardando.
+  const situacaoCaso = (c) =>
+    c.pedidos.some((p) => p.situacao === "respondido" || p.situacao === "parcial") ? "resposta"
+      : c.pedidos.some((p) => p.vencido || p.situacao === "sem_resposta") ? "vencido" : "aguardando";
+  const n = (k) => casos.filter((c) => situacaoCaso(c) === k).length;
 
   return (
     <>
@@ -31,10 +34,10 @@ export default function Fiscalizacoes() {
           </p>
 
           <ul className="fis-placar" aria-label="Resumo">
-            <li><b>{todos.length}</b><span>pedidos enviados</span></li>
-            <li><b>{n((p) => p.situacao === "aguardando")}</b><span>aguardando resposta</span></li>
-            <li><b>{n((p) => p.situacao === "respondido" || p.situacao === "parcial")}</b><span>com resposta</span></li>
-            <li><b>{n((p) => p.vencido || p.situacao === "sem_resposta")}</b><span>sem resposta no prazo</span></li>
+            <li><b>{casos.length}</b><span>fiscalizações</span></li>
+            <li><b>{n("aguardando")}</b><span>aguardando resposta</span></li>
+            <li><b>{n("resposta")}</b><span>com resposta</span></li>
+            <li><b>{n("vencido")}</b><span>sem resposta no prazo</span></li>
           </ul>
 
           <ol className="fis-lista">
