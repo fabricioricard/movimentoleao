@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { SITE } from "../lib/config";
 
+const INSTAGRAM = "https://www.instagram.com/movimentoleao/";
+
 // Topo compartilhado. Na home (home=true) o logo rola para o início da própria página.
 export default function Topo({ home = false }) {
   const A = home ? "a" : Link;
@@ -25,8 +27,8 @@ export default function Topo({ home = false }) {
           <a className="pilula pilula-linha topo-x" href={SITE.x} target="_blank" rel="noopener noreferrer">
             Siga no X
           </a>
-          <a className="pilula pilula-ouro" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">
-            Entre no grupo
+          <a className="pilula pilula-ouro topo-x" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">
+            Siga no Instagram
           </a>
         </div>
       </div>
