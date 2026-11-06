@@ -15,19 +15,7 @@
 .sob-pessoa h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 2rem; line-height: 1.02; color: #fff; margin: 4px 0; }
 .sob-pessoa p { color: #d3dcef; }
 
-.sob-pilares { margin-top: 32px; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
-.sob-pilares li { background: #fff; border-top: 6px solid var(--royal, #1f54a8); border-radius: 6px; padding: 24px 26px; display: grid; gap: 8px; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.08); position: relative; }
-.sob-num { font-family: var(--display, system-ui, sans-serif); font-weight: 800; font-size: 2.4rem; line-height: 1; color: var(--ouro, #d9a21b); }
-.sob-pilares h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 1.6rem; line-height: 1.05; color: var(--tinta, #0b1530); }
-.sob-pilares p { color: var(--suave, #4c5a78); }
 
-.sob-fases { margin-top: 32px; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-.sob-fases li { background: rgba(255,255,255,.07); border-top: 6px solid rgba(255,255,255,.3); border-radius: 6px; padding: 24px; display: grid; gap: 8px; align-content: start; }
-.sob-fases .sob-atual { border-top-color: var(--ouro, #d9a21b); background: rgba(217, 162, 27, .14); }
-.sob-fase-n { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ouro-claro, #f2c14e); }
-.sob-fase-n em { font-style: normal; color: #fff; }
-.sob-fases h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 1.7rem; line-height: 1.05; color: #fff; }
-.sob-fases p { color: #d3dcef; }
 
 .sob-atuacao { margin-top: 32px; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .sob-atuacao li { background: #fff; border-top: 6px solid var(--ouro, #d9a21b); border-radius: 6px; padding: 24px 26px; display: grid; gap: 10px; align-content: start; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.08); }
@@ -39,8 +27,7 @@
 @media (max-width: 900px) {
   .sob-origem { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .sob-sigla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .sob-fund, .sob-pilares { grid-template-columns: minmax(0, 1fr); }
-  .sob-fases, .sob-atuacao { grid-template-columns: minmax(0, 1fr); }
+  .sob-fund, .sob-atuacao { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 560px) {
   .sob-pessoa { flex-direction: column; text-align: center; padding: 20px 16px; }

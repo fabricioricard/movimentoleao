@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SITE } from "../lib/config";
-import { ORIGEM, FUNDADORES, SIGLA, PILARES, FASES, ATUACAO } from "../lib/sobre-dados";
+import { ORIGEM, FUNDADORES, SIGLA, ATUACAO } from "../lib/sobre-dados";
 
 export default function Sobre() {
   return (
@@ -37,33 +37,6 @@ export default function Sobre() {
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <section className="bloco bloco-gelo sob-bloco" aria-labelledby="sob-pil">
-        <div className="container">
-          <h2 className="titulo-secao junto" id="sob-pil">No que acreditamos</h2>
-          <ul className="sob-pilares">
-            {PILARES.map((p, i) => (
-              <li key={p.t}><span className="sob-num">{i + 1}</span><h3>{p.t}</h3><p>{p.d}</p></li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="bloco bloco-marinho sob-bloco" aria-labelledby="sob-jornada">
-        <div className="container">
-          <h2 className="titulo-secao junto" id="sob-jornada">Do movimento ao partido</h2>
-          <p className="secao-intro">Um plano em três fases.</p>
-          <ol className="sob-fases">
-            {FASES.map((f) => (
-              <li key={f.n} className={f.atual ? "sob-atual" : ""}>
-                <span className="sob-fase-n">Fase {f.n}{f.atual && <em> · estamos aqui</em>}</span>
-                <h3>{f.t}</h3>
-                <p>{f.d}</p>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 
