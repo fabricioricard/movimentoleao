@@ -1,0 +1,52 @@
+.sob-bloco { padding-top: 64px; padding-bottom: 72px; }
+.sob-origem { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 56px; align-items: center; }
+.sob-texto { margin-top: 22px; display: grid; gap: 18px; max-width: 40em; }
+.sob-texto p { font-size: 1.15rem; line-height: 1.65; color: var(--suave, #4c5a78); }
+.sob-texto .sob-destaque { font-size: 1.45rem; line-height: 1.4; font-weight: 600; color: var(--tinta, #0b1530); border-left: 6px solid var(--ouro, #d9a21b); padding-left: 18px; }
+.sob-sigla { list-style: none; display: grid; gap: 10px; }
+.sob-sigla li { display: flex; align-items: center; gap: 18px; background: var(--m900, #08183a); color: #fff; border-radius: 6px; padding: 12px 20px; border-left: 8px solid var(--ouro, #d9a21b); }
+.sob-sigla b { font-family: var(--display, system-ui, sans-serif); font-weight: 800; font-size: 3rem; line-height: 1; color: var(--ouro-claro, #f2c14e); width: 1ch; }
+.sob-sigla span { font-family: var(--display, system-ui, sans-serif); font-weight: 700; font-size: 1.6rem; text-transform: uppercase; }
+
+.sob-fund { margin-top: 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; list-style: none; }
+.sob-pessoa { display: flex; align-items: center; gap: 24px; background: rgba(255,255,255,.07); border-top: 6px solid var(--ouro, #d9a21b); border-radius: 6px; padding: 24px; }
+.sob-pessoa img { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; border: 4px solid var(--ouro, #d9a21b); flex: none; background: #1a2748; }
+.sob-papel { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ouro-claro, #f2c14e); }
+.sob-pessoa h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 2rem; line-height: 1.02; color: #fff; margin: 4px 0; }
+.sob-pessoa p { color: #d3dcef; }
+
+.sob-pilares { margin-top: 32px; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.sob-pilares li { background: #fff; border-top: 6px solid var(--royal, #1f54a8); border-radius: 6px; padding: 24px 26px; display: grid; gap: 8px; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.08); position: relative; }
+.sob-num { font-family: var(--display, system-ui, sans-serif); font-weight: 800; font-size: 2.4rem; line-height: 1; color: var(--ouro, #d9a21b); }
+.sob-pilares h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 1.6rem; line-height: 1.05; color: var(--tinta, #0b1530); }
+.sob-pilares p { color: var(--suave, #4c5a78); }
+
+.sob-fases { margin-top: 32px; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.sob-fases li { background: rgba(255,255,255,.07); border-top: 6px solid rgba(255,255,255,.3); border-radius: 6px; padding: 24px; display: grid; gap: 8px; align-content: start; }
+.sob-fases .sob-atual { border-top-color: var(--ouro, #d9a21b); background: rgba(217, 162, 27, .14); }
+.sob-fase-n { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ouro-claro, #f2c14e); }
+.sob-fase-n em { font-style: normal; color: #fff; }
+.sob-fases h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 1.7rem; line-height: 1.05; color: #fff; }
+.sob-fases p { color: #d3dcef; }
+
+.sob-atuacao { margin-top: 32px; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.sob-atuacao li { background: #fff; border-top: 6px solid var(--ouro, #d9a21b); border-radius: 6px; padding: 24px 26px; display: grid; gap: 10px; align-content: start; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.08); }
+.sob-atuacao h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 1.5rem; line-height: 1.05; color: var(--tinta, #0b1530); }
+.sob-atuacao p { color: var(--suave, #4c5a78); }
+.sob-atuacao a { color: var(--royal, #1f54a8); font-weight: 700; }
+.sob-atuacao a:hover { text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .sob-origem { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .sob-sigla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sob-fund, .sob-pilares { grid-template-columns: minmax(0, 1fr); }
+  .sob-fases, .sob-atuacao { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .sob-pessoa { flex-direction: column; text-align: center; padding: 20px 16px; }
+  .sob-pessoa img { width: 112px; height: 112px; }
+  .sob-sigla li { padding: 10px 14px; }
+  .sob-sigla b { font-size: 2.4rem; }
+  .sob-sigla span { font-size: 1.2rem; }
+  .sob-texto .sob-destaque { font-size: 1.25rem; }
+}
