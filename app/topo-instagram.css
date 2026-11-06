@@ -1,0 +1,3 @@
+/* Botão "Siga no Instagram" do topo, na cor do Instagram */
+.pilula.pilula-insta { background: #e1306c; border-color: #e1306c; color: #fff; }
+.pilula.pilula-insta:hover, .pilula.pilula-insta:focus-visible { background: #c42a5f; border-color: #c42a5f; color: #fff; }

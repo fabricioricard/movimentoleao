@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE } from "../lib/config";
+import "../app/topo-instagram.css";
 
 const INSTAGRAM = "https://www.instagram.com/movimentoleao/";
 
@@ -28,7 +29,7 @@ export default function Topo({ home = false }) {
           <a className="pilula pilula-linha topo-x" href={SITE.x} target="_blank" rel="noopener noreferrer">
             Siga no X
           </a>
-          <a className="pilula pilula-ouro topo-x" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">
+          <a className="pilula pilula-insta topo-x" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">
             Siga no Instagram
           </a>
         </div>
