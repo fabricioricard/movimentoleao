@@ -1,0 +1,32 @@
+/* Seção "Destaques do Movimento" da home */
+.dh { padding-top: 64px; padding-bottom: 80px; }
+.dh-grade { margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.dh-card { display: grid; gap: 10px; align-content: start; background: #fff; color: var(--tinta, #0b1530); border-top: 6px solid var(--ouro, #d9a21b); border-radius: 6px; padding: 26px 28px; box-shadow: 0 10px 30px rgba(8, 24, 58, 0.08); transition: transform .15s, box-shadow .15s; }
+.dh-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(8, 24, 58, 0.16); }
+.dh-card h3 { font-family: var(--display, system-ui, sans-serif); font-weight: 800; text-transform: uppercase; font-size: 1.6rem; line-height: 1.05; }
+.dh-card p { color: var(--suave, #4c5a78); }
+.dh-tag { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--royal, #1f54a8); }
+.dh-ver { display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; font-weight: 700; color: var(--royal, #1f54a8); }
+
+.dh-materia { grid-column: span 2; background: var(--m900, #08183a); color: #fff; border-top-color: var(--ouro, #d9a21b); border-left: 8px solid var(--ouro, #d9a21b); padding: 32px 36px; }
+.dh-materia h3 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
+.dh-materia p { color: #d3dcef; font-size: 1.08rem; }
+.dh-materia .dh-tag, .dh-materia .dh-ver { color: #ffe08a; }
+
+.dh-calc { background: linear-gradient(160deg, #f2c14e, #d9a21b); border-top-color: #b98512; }
+.dh-calc p { color: #3a2c05; }
+.dh-calc .dh-tag, .dh-calc .dh-ver { color: #1b1300; }
+
+.dh-mais { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 24px; font-weight: 700; }
+.dh-mais a { color: var(--royal, #1f54a8); text-decoration: underline; text-underline-offset: 4px; }
+
+@media (max-width: 900px) {
+  .dh-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dh-materia { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .dh-grade { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .dh-card { padding: 22px 20px; }
+  .dh-materia { padding: 24px 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .dh-card { transition: none; } .dh-card:hover { transform: none; } }

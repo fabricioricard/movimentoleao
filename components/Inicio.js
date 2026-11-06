@@ -3,6 +3,9 @@ import { SITE } from "../lib/config";
 import Topo from "./Topo";
 import Rodape from "./Rodape";
 import RolarAoCarregar from "./RolarAoCarregar";
+import { NOTICIAS } from "../lib/noticias-dados";
+import { FISCALIZACOES } from "../lib/fiscalizacoes-dados";
+import "../app/destaques-home.css";
 
 const DESTAQUES = ["Eficiência e Serviço Estatal", "Harmonia Corporativa", "Meritocracia e Ordem"];
 
@@ -13,29 +16,6 @@ const DEGRAUS = [
   { letra: "O", palavra: "Ordem", tom: "ouro" },
 ];
 
-const PILARES = [
-  {
-    letra: "L",
-    titulo: "Liderança com Servidão Estatal",
-    texto: "Quem lidera, serve. A máquina pública existe para servir ao povo, e não o contrário.",
-  },
-  {
-    letra: "E",
-    titulo: "Eficiência e Produção Corporativa",
-    texto: "Harmonia entre as forças produtivas, o trabalho e a ciência, com foco em resultado.",
-  },
-  {
-    letra: "A",
-    titulo: "Autonomia do Cidadão e Desburocratização",
-    texto: "Menos burocracia e mais liberdade para o cidadão trabalhar, produzir e prosperar.",
-  },
-  {
-    letra: "O",
-    titulo: "Ordem, Justiça e Meritocracia",
-    texto: "Regras claras, justiça para todos e reconhecimento pelo mérito.",
-  },
-];
-
 function Seta() {
   return (
     <svg className="seta" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -44,8 +24,10 @@ function Seta() {
   );
 }
 
-// Conteúdo da home. As rotas /pilares e /participe usam o mesmo conteúdo e rolam até a seção (prop alvo).
+// Conteúdo da home. As rotas /pilares e /participe (links antigos) usam o mesmo conteúdo e rolam até a âncora (prop alvo).
 export default function Inicio({ alvo }) {
+  const materia = NOTICIAS[0]; // a primeira da lista é a mais nova
+
   return (
     <>
       {alvo && <RolarAoCarregar id={alvo} />}
@@ -54,7 +36,7 @@ export default function Inicio({ alvo }) {
       <main>
         <section id="inicio" className="hero">
           <div className="container hero-grade">
-            <div className="hero-texto">
+            <div className="hero-texto" id="participe">
               <h1 className="hero-titulo">
                 <span className="linha">Liderança para</span>
                 <span className="linha destaque">Eficiência,</span>
@@ -86,6 +68,7 @@ export default function Inicio({ alvo }) {
         </section>
 
         <section id="manifesto" className="bloco bloco-gelo">
+          <span id="pilares" aria-hidden="true" />
           <div className="container manifesto">
             <p className="manifesto-frase">
               O Brasil não suporta mais um Estado pesado, ineficiente e voltado para si mesmo. O LEAO nasce para{" "}
@@ -100,57 +83,56 @@ export default function Inicio({ alvo }) {
           </div>
         </section>
 
-        <section className="bloco bloco-gelo calc-chamada" aria-labelledby="calc-chamada-t">
-          <div className="container calc-chamada-in">
-            <div>
-              <h2 className="titulo-secao junto" id="calc-chamada-t">Até que dia você trabalha para o Estado?</h2>
-              <p className="secao-intro">Digite o seu salário e descubra o seu Dia da Liberdade. Leva dez segundos.</p>
-            </div>
-            <Link className="pilula pilula-ouro pilula-grande" href="/calculadora">
-              Usar a calculadora
-            </Link>
-          </div>
-        </section>
-
-        <section id="pilares" className="bloco bloco-marinho">
+        <section id="destaques" className="bloco bloco-gelo dh" aria-labelledby="dh-t">
           <div className="container">
-            <h2 className="titulo-secao">Os 4 pilares do LEAO</h2>
-            <ol className="pilares">
-              {PILARES.map((p) => (
-                <li className="pilar" key={p.letra}>
-                  <span className="pilar-letra" aria-hidden="true">
-                    {p.letra}
-                  </span>
-                  <div className="pilar-corpo">
-                    <h3>{p.titulo}</h3>
-                    <p>{p.texto}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <div className="pilares-link">
-              <p>Como o movimento se organiza?</p>
-              <Link className="pilula pilula-ouro pilula-grande" href="/posicoes">
-                Ver as posições
+            <h2 className="titulo-secao junto" id="dh-t">Destaques do Movimento</h2>
+            <p className="secao-intro">O que o LEAO está fazendo agora.</p>
+
+            <div className="dh-grade">
+              {materia && (
+                <Link href={`/noticias/${materia.slug}`} className="dh-card dh-materia">
+                  <span className="dh-tag">Última da revista · {materia.tag}</span>
+                  <h3>{materia.titulo}</h3>
+                  <p>{materia.resumo}</p>
+                  <span className="dh-ver">Ler a matéria <Seta /></span>
+                </Link>
+              )}
+
+              <Link href="/calculadora" className="dh-card dh-calc">
+                <span className="dh-tag">Calculadora</span>
+                <h3>Até que dia você trabalha para o Estado?</h3>
+                <p>Digite o seu salário e descubra o seu Dia da Liberdade. Leva dez segundos.</p>
+                <span className="dh-ver">Usar a calculadora <Seta /></span>
+              </Link>
+
+              <Link href="/fiscalizacoes" className="dh-card">
+                <span className="dh-tag">Fiscalização</span>
+                <h3>Acompanhamento das fiscalizações</h3>
+                <p>
+                  {FISCALIZACOES.length} {FISCALIZACOES.length === 1 ? "fiscalização acompanhada" : "fiscalizações acompanhadas"}, cada uma com órgão, protocolo, prazo e resposta.
+                </p>
+                <span className="dh-ver">Ver o registro <Seta /></span>
+              </Link>
+
+              <Link href="/lideranca" className="dh-card">
+                <span className="dh-tag">Liderança</span>
+                <h3>Quem lidera o movimento</h3>
+                <p>Do Líder Nacional aos municípios, com as vagas abertas à vista de todos.</p>
+                <span className="dh-ver">Ver a liderança <Seta /></span>
+              </Link>
+
+              <Link href="/camisas" className="dh-card">
+                <span className="dh-tag">Camisas</span>
+                <h3>Vista o movimento</h3>
+                <p>Use a camisa do LEAO na rua. Quem não pode pagar recebe de graça.</p>
+                <span className="dh-ver">Ver as camisas <Seta /></span>
               </Link>
             </div>
-          </div>
-        </section>
 
-        <section id="participe" className="bloco bloco-royal">
-          <div className="container chamada">
-            <h2 className="chamada-titulo">Nascemos para liderar a reconstrução nacional.</h2>
-            <p className="chamada-texto">
-              Construindo o futuro do Brasil. Entre no grupo e acompanhe tudo em primeira mão.
+            <p className="dh-mais">
+              <Link href="/noticias">Ver toda a revista</Link>
+              <Link href="/sobre">Conhecer o movimento</Link>
             </p>
-            <div className="chamada-acoes">
-              <a className="pilula pilula-ouro pilula-grande" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">
-                Entrar no grupo do WhatsApp
-              </a>
-              <a className="pilula pilula-linha pilula-grande" href={SITE.x} target="_blank" rel="noopener noreferrer">
-                Seguir no X
-              </a>
-            </div>
           </div>
         </section>
       </main>
