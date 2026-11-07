@@ -136,3 +136,25 @@
 .jg-av { filter: drop-shadow(0 3px 0 rgba(0,0,0,.35)); transition: transform .15s; }
 @media (prefers-reduced-motion: no-preference) { .jg-av { animation: jg-bob 2.6s ease-in-out infinite; } }
 @keyframes jg-bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
+
+/* ---------- Arena lado a lado: você à esquerda, adversário à direita ---------- */
+.jg-bt { grid-template-columns: 1fr 1fr; grid-template-areas: "topo topo" "meu ini" "meio meio" "painel painel" "barra barra"; align-items: start; }
+.jg-bt-topo { grid-area: topo; }
+.jg-lado-meu { grid-area: meu; }
+.jg-lado-ini { grid-area: ini; }
+.jg-meio { grid-area: meio; }
+.jg-painel { grid-area: painel; }
+.jg-barra { grid-area: barra; }
+.jg-lado { align-content: start; position: relative; }
+.jg-lado-meu .jg-nick { order: -1; }
+.jg-lado-ini .jg-nick { text-align: right; color: #ffb3bb; }
+.jg-lado-meu .jg-nick { color: #9cc1ff; }
+.jg-lado-meu::after { content: "VS"; position: absolute; right: -26px; top: 50%; transform: translateY(-50%); z-index: 2;
+  background: var(--ouro, #d9a21b); color: #1b1300; font-weight: 900; font-size: .85rem; border: 3px solid #1a1424; border-radius: 99px; padding: 4px 7px; }
+.jg-fila .jg-un { flex: 0 1 140px; }
+.jg-un-nome { font-size: 1.05rem; letter-spacing: .02em; }
+@media (max-width: 760px) {
+  .jg-bt { grid-template-columns: 1fr; grid-template-areas: "topo" "ini" "meu" "meio" "painel" "barra"; }
+  .jg-lado-meu::after { display: none; }
+  .jg-fila { gap: 8px; }
+}

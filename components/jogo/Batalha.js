@@ -23,8 +23,8 @@ function Unidade({ u, lado, i, meu, foco, marcada, mira, onClick, acao }) {
   useEffect(() => { if (u.hp !== ant.current) { setFlash(u.hp < ant.current ? "dano" : "cura"); const t = setTimeout(() => setFlash(null), 600); ant.current = u.hp; return () => clearTimeout(t); } }, [u.hp]);
   return (
     <button type="button" className={`jg-un ${meu ? "jg-meu" : "jg-ini"} ${u.hp <= 0 ? "jg-morto" : ""} ${foco ? "jg-foco" : ""} ${mira ? "jg-mira" : ""} ${flash ? "jg-flash-" + flash : ""}`} onClick={onClick} disabled={false} aria-label={`${p.nome}, ${u.hp} de vida`}>
-      <Avatar av={p.avatar} tamanho={72} morto={u.hp <= 0} />
-      <span className="jg-un-nome">{p.nome.split(" ")[0]}</span>
+      <Avatar av={p.avatar} tamanho={84} morto={u.hp <= 0} />
+      <span className="jg-un-nome">{p.curto}</span>
       <span className="jg-hp"><i style={{ width: pct + "%" }} /></span>
       <span className="jg-hp-n">{u.hp}/{HP}</span>
       <span className="jg-sts">{u.st.map((x, k) => (<span key={k} className={`jg-st jg-st-${x.k}`} title={`${NOME_ST[x.k]}${x.v ? " " + x.v : ""} (${x.t})`}>{ICO_ST[x.k]}</span>))}</span>
@@ -73,8 +73,8 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
   }
   const alvoNome = (a) => {
     const sk = PERSONAGENS[s.lados[meu].u[a.u].id].skills[a.s];
-    if (sk.alvo === "inimigo") return "→ " + PERSONAGENS[s.lados[ini].u[a.tg].id].nome.split(" ")[0];
-    if (sk.alvo === "aliado") return "→ " + PERSONAGENS[s.lados[meu].u[a.tg].id].nome.split(" ")[0];
+    if (sk.alvo === "inimigo") return "→ " + PERSONAGENS[s.lados[ini].u[a.tg].id].curto;
+    if (sk.alvo === "aliado") return "→ " + PERSONAGENS[s.lados[meu].u[a.tg].id].curto;
     return "";
   };
 
@@ -140,7 +140,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
         <button type="button" className="jg-btn jg-btn-ouro jg-btn-grande" disabled={!minhaVez || !val.ok || aguardando} onClick={() => onEnviar({ t: "turn", turn: s.turno, acts: lista })}>
           {minhaVez ? (lista.length ? `Encerrar turno (${lista.length} ação${lista.length > 1 ? "ões" : ""})` : "Passar o turno") : "Aguardando adversário…"}
         </button>
-        {minhaVez && lista.length > 0 && <span className="jg-resumo">{lista.map((a, i) => <span key={i}>{PERSONAGENS[s.lados[meu].u[a.u].id].nome.split(" ")[0]}: {PERSONAGENS[s.lados[meu].u[a.u].id].skills[a.s].nome} {alvoNome(a)}</span>)}</span>}
+        {minhaVez && lista.length > 0 && <span className="jg-resumo">{lista.map((a, i) => <span key={i}>{PERSONAGENS[s.lados[meu].u[a.u].id].curto}: {PERSONAGENS[s.lados[meu].u[a.u].id].skills[a.s].nome} {alvoNome(a)}</span>)}</span>}
       </div>
     </div>
   );
