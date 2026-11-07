@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE } from "../lib/config";
 import "../app/topo-instagram.css";
+import "../app/topo-menu.css";
 
 const INSTAGRAM = "https://www.instagram.com/movimentoleao/";
 

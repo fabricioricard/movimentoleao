@@ -1,0 +1,23 @@
+/* Menu do topo: tudo em uma linha, espaçamento uniforme, botões do mesmo tamanho. */
+.topo .container.topo-in { width: min(1480px, calc(100% - 40px)); max-width: none; flex-wrap: nowrap; gap: 24px; }
+.topo .marca { flex-shrink: 0; }
+.topo .menu {
+  display: flex; align-items: center; justify-content: center; flex: 1 1 auto;
+  gap: clamp(14px, 1.5vw, 26px); white-space: nowrap;
+}
+.topo .menu a {
+  position: relative; padding: 8px 0; white-space: nowrap; line-height: 1.2;
+  font-size: 1rem; letter-spacing: .02em;
+}
+.topo .menu a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: var(--ouro, #d9a21b); transform: scaleX(0); transform-origin: left; transition: transform .2s;
+}
+.topo .menu a:hover::after, .topo .menu a:focus-visible::after { transform: scaleX(1); }
+.topo .topo-acoes { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.topo .topo-acoes .pilula {
+  white-space: nowrap; padding: 11px 20px; font-size: .98rem; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+@media (max-width: 1400px) { .topo .topo-acoes .topo-x { display: none; } }
+@media (max-width: 1140px) { .topo .menu { display: none; } }
