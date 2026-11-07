@@ -207,7 +207,7 @@ export default function Jogo() {
           <li>Cada turno você ganha energias aleatórias: Voto, Mídia, Dinheiro ou Articulação.</li>
           <li>Clique em um personagem, escolha uma habilidade e o alvo. Cada personagem usa uma habilidade por turno.</li>
           <li>Habilidades têm custo em energia e tempo de espera. “Qualquer” (*) gasta a energia que você tem mais.</li>
-          <li>Vence quem derrotar todos os personagens do adversário. Cada turno tem 30 segundos.</li>
+          <li>Vence quem derrotar todos os personagens do adversário. O turno dura 20 segundos no 1×1, 30 no 2×2 e 40 no 3×3.</li>
           <li>Depois do turno 24, o desgaste tira vida de todos e a partida termina.</li>
         </ul>
         <p className="jg-peq">Paródia do Movimento LEAO. Os personagens são desenhos nossos e as habilidades são brincadeiras com bordões e posições públicas. Não representam fatos nem opinião sobre as pessoas.</p>

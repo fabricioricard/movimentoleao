@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { reproduzir, bot, outro, TURNO_MS } from "../../lib/jogo/motor.js";
+import { reproduzir, bot, outro, turnoMs } from "../../lib/jogo/motor.js";
 import { concluirPartida } from "../../lib/jogo/missoes.js";
 import { PERSONAGENS } from "../../lib/jogo/personagens.js";
 import Batalha from "./Batalha.js";
@@ -8,11 +8,11 @@ import Batalha from "./Batalha.js";
 // Controla uma partida: contra o computador (local) ou contra outro jogador (movimentos pelo servidor).
 export default function Partida({ backend, jogador, modo, init, meu, nicks, matchId, onFim, onSair }) {
   const [movs, setMovs] = useState([]);
-  const [seg, setSeg] = useState(Math.round(TURNO_MS / 1000));
+  const [seg, setSeg] = useState(Math.round(turnoMs(init) / 1000));
   const [resultado, setResultado] = useState(null);
   const [aguardando, setAguardando] = useState(false);
   const movsRef = useRef(movs); movsRef.current = movs;
-  const prazo = useRef(Date.now() + TURNO_MS);
+  const prazo = useRef(Date.now() + turnoMs(init));
   const contou = useRef(false);
 
   // Movimentos do servidor (PvP). O lado de cada movimento vem de QUEM escreveu, nunca do conteúdo.
@@ -23,7 +23,7 @@ export default function Partida({ backend, jogador, modo, init, meu, nicks, matc
 
   const s = useMemo(() => reproduzir(init, movs), [init, movs]);
   const sRef = useRef(s); sRef.current = s;
-  useEffect(() => { prazo.current = Date.now() + TURNO_MS; setAguardando(false); }, [movs.length]);
+  useEffect(() => { prazo.current = Date.now() + turnoMs(init); setAguardando(false); }, [movs.length]);
 
   const enviar = useCallback(async (mov) => {
     if (modo === "bot") { setMovs((l) => [...l, { ...mov, lado: meu, ts: Date.now() }]); return; }
@@ -54,8 +54,8 @@ export default function Partida({ backend, jogador, modo, init, meu, nicks, matc
       const falta = Math.round((prazo.current - Date.now()) / 1000);
       setSeg(falta);
       if (modo === "bot" && cur.lado !== meu) return;
-      if (falta <= -1 && cur.lado === meu) { enviar({ t: "timeout", turn: cur.turno }); prazo.current = Date.now() + TURNO_MS; }
-      else if (modo === "pvp" && cur.lado !== meu && falta <= -2) { enviar({ t: "timeout", turn: cur.turno }); prazo.current = Date.now() + TURNO_MS; }
+      if (falta <= -1 && cur.lado === meu) { enviar({ t: "timeout", turn: cur.turno }); prazo.current = Date.now() + turnoMs(init); }
+      else if (modo === "pvp" && cur.lado !== meu && falta <= -2) { enviar({ t: "timeout", turn: cur.turno }); prazo.current = Date.now() + turnoMs(init); }
     }, 1000);
     return () => clearInterval(iv);
   }, [enviar, modo, meu]);
