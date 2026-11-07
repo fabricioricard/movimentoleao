@@ -1,23 +1,25 @@
-/* Menu do topo: tudo em uma linha, espaçamento uniforme, botões do mesmo tamanho. */
-.topo .container.topo-in { width: min(1480px, calc(100% - 40px)); max-width: none; flex-wrap: nowrap; gap: 24px; }
+/* Menu do topo: logo, menu e botões formam um conjunto só.
+   Logo e menu ficam juntos à esquerda; os botões vão para a direita. */
+.topo .container.topo-in { width: min(1320px, calc(100% - 40px)); max-width: none; flex-wrap: nowrap; gap: 20px; }
 .topo .marca { flex-shrink: 0; }
 .topo .menu {
-  display: flex; align-items: center; justify-content: center; flex: 1 1 auto;
+  display: flex; align-items: center; justify-content: flex-start; flex: 0 1 auto;
+  margin-left: clamp(20px, 2.6vw, 48px);
   gap: clamp(14px, 1.5vw, 26px); white-space: nowrap;
 }
 .topo .menu a {
   position: relative; padding: 8px 0; white-space: nowrap; line-height: 1.2;
-  font-size: 1rem; letter-spacing: .02em;
+  font-size: clamp(1rem, 1vw, 1.12rem); letter-spacing: .02em;
 }
 .topo .menu a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
   background: var(--ouro, #d9a21b); transform: scaleX(0); transform-origin: left; transition: transform .2s;
 }
 .topo .menu a:hover::after, .topo .menu a:focus-visible::after { transform: scaleX(1); }
-.topo .topo-acoes { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.topo .topo-acoes { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: auto; }
 .topo .topo-acoes .pilula {
-  white-space: nowrap; padding: 11px 20px; font-size: .98rem; line-height: 1;
+  white-space: nowrap; padding: 10px 18px; font-size: 1rem; line-height: 1;
   display: inline-flex; align-items: center; justify-content: center;
 }
-@media (max-width: 1400px) { .topo .topo-acoes .topo-x { display: none; } }
+@media (max-width: 1340px) { .topo .topo-acoes .topo-x { display: none; } }
 @media (max-width: 1140px) { .topo .menu { display: none; } }
