@@ -4,6 +4,36 @@ import { PERSONAGENS, ENERGIA_NOME, HP } from "../../lib/jogo/personagens.js";
 import { validar, pagar, atordoado, outro } from "../../lib/jogo/motor.js";
 import Avatar from "./Avatar.js";
 
+// ---- Efeitos visuais: montados a partir dos eventos do último movimento (s.ev) ----
+const ICO_FX = { stun: "💫", shield: "🛡", buff: "⬆", weak: "⬇", def: "◈", inv: "✦", dot: "☠", drain: "⚡", gain: "⚡" };
+const PASSO = 1100; // tempo entre uma habilidade e a próxima, em ms
+function tipoDe(sk) {
+  const t = sk.efeitos.map((e) => e.t);
+  if (t.includes("dmg")) return "golpe";
+  if (t.includes("heal")) return "cura";
+  if (t.some((x) => x === "shield" || x === "def" || x === "inv")) return "defesa";
+  if (t.some((x) => x === "stun" || x === "weak" || x === "drain" || x === "dot")) return "controle";
+  return "apoio";
+}
+function montarFx(s) {
+  const itens = [], casts = {}; let g = -1; const pos = [];
+  s.ev.forEach((e, n) => {
+    if (e.k === "use") {
+      g += 1;
+      const sk = PERSONAGENS[s.lados[e.lado].u[e.u].id].skills[e.s];
+      casts[`${e.lado}${e.u}`] = { nome: sk.nome, tipo: tipoDe(sk), d: g * PASSO };
+      return;
+    }
+    if (e.dot) { pos.push(e); return; }
+    const d = Math.max(g, 0) * PASSO + 420;
+    if (e.k === "dmg") itens.push({ lado: e.lado, u: e.u, k: "dmg", txt: "−" + e.v, d, forte: e.v >= 20 });
+    else if (e.k === "heal") itens.push({ lado: e.lado, u: e.u, k: "heal", txt: "+" + e.v, d });
+    else if (e.k === "st") itens.push({ lado: e.lado, u: e.u, k: "st", txt: ICO_FX[e.e] || "✦", d });
+  });
+  pos.forEach((e) => itens.push({ lado: e.lado, u: e.u, k: "dmg", txt: "☠ −" + e.v, d: (g + 1) * PASSO + 420 }));
+  return { itens, casts, total: (g + 2) * PASSO + 900, forte: itens.filter((x) => x.forte).map((x) => x.d)[0] };
+}
+
 const NOME_ST = { stun: "Atordoado", dot: "Dano contínuo", shield: "Escudo", buff: "Dano +", weak: "Dano −", def: "Defesa", inv: "Invulnerável" };
 const ICO_ST = { stun: "💫", dot: "☠", shield: "🛡", buff: "⬆", weak: "⬇", def: "◈", inv: "✦" };
 
@@ -17,13 +47,22 @@ function Pool({ pool }) {
   );
 }
 
-function Unidade({ u, lado, i, meu, foco, marcada, mira, onClick, acao }) {
+function Unidade({ u, lado, i, meu, foco, marcada, mira, onClick, acao, fx = [], cast }) {
   const p = PERSONAGENS[u.id]; const pct = Math.max(0, (u.hp / HP) * 100);
   const [flash, setFlash] = useState(null); const ant = useRef(u.hp);
   useEffect(() => { if (u.hp !== ant.current) { setFlash(u.hp < ant.current ? "dano" : "cura"); const t = setTimeout(() => setFlash(null), 600); ant.current = u.hp; return () => clearTimeout(t); } }, [u.hp]);
   return (
-    <button type="button" className={`jg-un ${meu ? "jg-meu" : "jg-ini"} ${u.hp <= 0 ? "jg-morto" : ""} ${foco ? "jg-foco" : ""} ${mira ? "jg-mira" : ""} ${flash ? "jg-flash-" + flash : ""}`} onClick={onClick} disabled={false} aria-label={`${p.nome}, ${u.hp} de vida`}>
-      <Avatar av={p.avatar} tamanho={84} morto={u.hp <= 0} />
+    <button type="button" className={`jg-un ${meu ? "jg-meu" : "jg-ini"} ${u.hp <= 0 ? "jg-morto" : ""} ${foco ? "jg-foco" : ""} ${mira ? "jg-mira" : ""} ${flash ? "jg-flash-" + flash : ""} ${cast ? "jg-cast jg-lunge-" + (meu ? "meu" : "ini") : ""} ${fx.some((x) => x.forte) ? "jg-forte" : ""}`} style={{ "--d": (cast ? cast.d : 0) + "ms", "--dh": (fx.find((x) => x.forte) || { d: 0 }).d + "ms" }} onClick={onClick} disabled={false} aria-label={`${p.nome}, ${u.hp} de vida`}>
+      <span className="jg-av-w"><Avatar av={p.avatar} tamanho={84} morto={u.hp <= 0} /></span>
+      <span className="jg-fxs" aria-hidden="true">
+        {cast && <span className={`jg-cast-nome jg-tipo-${cast.tipo}`}>{cast.nome}</span>}
+        {fx.map((x, k) => (
+          <span key={k} className={`jg-fx-g jg-fx-${x.k}`} style={{ "--fd": x.d + "ms" }}>
+            <i className="jg-burst" />
+            <b className="jg-fx-txt">{x.txt}</b>
+          </span>
+        ))}
+      </span>
       <span className="jg-un-nome">{p.curto}</span>
       <span className="jg-hp"><i style={{ width: pct + "%" }} /></span>
       <span className="jg-hp-n">{u.hp}/{HP}</span>
@@ -40,6 +79,20 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
   const [acts, setActs] = useState({});
   const [mira, setMira] = useState(null);
   const vez = s.turno;
+  const [fx, setFx] = useState({ itens: [], casts: {}, id: "" });
+  const [tremer, setTremer] = useState(false);
+  const visto = useRef("");
+  useEffect(() => {
+    const chave = `${s.turno}:${s.log.length}`;
+    if (visto.current === chave) return;
+    visto.current = chave;
+    if (!s.ev || !s.ev.length) return;
+    const f = montarFx(s);
+    setFx({ ...f, id: chave });
+    const ts = [setTimeout(() => setFx({ itens: [], casts: {}, id: "" }), f.total)];
+    if (f.forte !== undefined) { ts.push(setTimeout(() => setTremer(true), f.forte)); ts.push(setTimeout(() => setTremer(false), f.forte + 450)); }
+    return () => ts.forEach(clearTimeout);
+  }, [s]);
 
   useEffect(() => { setActs({}); setMira(null); }, [vez]);
   useEffect(() => { const l = s.lados[meu].u; if (l[foco.i] && l[foco.i].hp <= 0 && foco.lado === meu) { const v = l.findIndex((x) => x.hp > 0); if (v >= 0) setFoco({ lado: meu, i: v }); } }, [s, meu, foco]);
@@ -79,7 +132,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
   };
 
   return (
-    <div className="jg-bt">
+    <div className={`jg-bt ${tremer ? "jg-tremer" : ""}`}>
       <div className="jg-bt-topo">
         <div className={`jg-turno ${minhaVez ? "jg-turno-meu" : ""}`}>
           {s.venc ? "Fim da partida" : minhaVez ? "Seu turno" : `Turno de ${nicks[ini]}`}
@@ -92,7 +145,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
         <div className="jg-nick">{nicks[ini]}</div>
         <div className="jg-fila">
           {s.lados[ini].u.map((u, i) => (
-            <Unidade key={i} u={u} lado={ini} i={i} meu={false} foco={foco.lado === ini && foco.i === i} mira={!!mira && mira.alvo === "inimigo" && u.hp > 0} onClick={() => clicarUnidade(ini, i)} />
+            <Unidade key={i} u={u} lado={ini} i={i} meu={false} foco={foco.lado === ini && foco.i === i} mira={!!mira && mira.alvo === "inimigo" && u.hp > 0} onClick={() => clicarUnidade(ini, i)} fx={fx.itens.filter((x) => x.lado === ini && x.u === i).map((x) => ({ ...x }))} cast={fx.casts[`${ini}${i}`]} />
           ))}
         </div>
         <Pool pool={s.lados[ini].pool} />
@@ -105,7 +158,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
       <div className="jg-lado jg-lado-meu">
         <div className="jg-fila">
           {s.lados[meu].u.map((u, i) => (
-            <Unidade key={i} u={u} lado={meu} i={i} meu foco={foco.lado === meu && foco.i === i} mira={!!mira && mira.alvo === "aliado" && u.hp > 0} onClick={() => clicarUnidade(meu, i)} acao={acts[i] ? PERSONAGENS[u.id].skills[acts[i].s].nome : null} />
+            <Unidade key={i} u={u} lado={meu} i={i} meu foco={foco.lado === meu && foco.i === i} mira={!!mira && mira.alvo === "aliado" && u.hp > 0} onClick={() => clicarUnidade(meu, i)} acao={acts[i] ? PERSONAGENS[u.id].skills[acts[i].s].nome : null} fx={fx.itens.filter((x) => x.lado === meu && x.u === i)} cast={fx.casts[`${meu}${i}`]} />
           ))}
         </div>
         <div className="jg-nick">{nicks[meu]} (você)</div>

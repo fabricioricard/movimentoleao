@@ -16,18 +16,46 @@ service cloud.firestore {
       allow create: if logado()
         && request.resource.data.uid == request.auth.uid
         && key.matches('^[a-z0-9_]{3,16}$')
-        && request.resource.data.unlocked.size() == 1;
+        && request.resource.data.unlocked.size() == 1
+        && request.resource.data.get('pontos', 1000) == 1000;
       allow update: if logado()
         && resource.data.uid == request.auth.uid
         && request.resource.data.uid == resource.data.uid
-        && request.resource.data.nick == resource.data.nick;
+        && request.resource.data.nick == resource.data.nick
+        && pontosOk();
       allow delete: if false;
+    }
+
+    // Pontos do ranking: só mudam junto com um resultado de partida (results/{partida}_{uid}), uma vez por partida.
+    function rid() { return request.resource.data.get('ultima', '') + '_' + request.auth.uid; }
+    function pontosOk() {
+      let a = resource.data.get('pontos', 1000);
+      let d = request.resource.data.get('pontos', 1000);
+      return a == d || (
+        d >= 0
+        && !exists(/databases/$(db)/documents/results/$(rid()))
+        && getAfter(/databases/$(db)/documents/results/$(rid())).data.delta == d - a);
+    }
+
+    // Resultados: vitória vale +25, derrota de 0 a −15; o id impede contar a mesma partida duas vezes.
+    match /results/{r} {
+      allow read: if logado() && resource.data.uid == request.auth.uid;
+      allow create: if logado()
+        && request.resource.data.uid == request.auth.uid
+        && r == request.resource.data.match + '_' + request.auth.uid
+        && request.resource.data.win is bool
+        && request.resource.data.delta is number
+        && (request.resource.data.win ? request.resource.data.delta == 25
+            : (request.resource.data.delta <= 0 && request.resource.data.delta >= -15))
+        && (get(/databases/$(db)/documents/matches/$(request.resource.data.match)).data.a.uid == request.auth.uid
+            || get(/databases/$(db)/documents/matches/$(request.resource.data.match)).data.b.uid == request.auth.uid);
+      allow update, delete: if false;
     }
 
     // Fila de espera.
     match /queue/{uid} {
       allow read: if logado();
-      allow create: if logado() && request.auth.uid == uid;
+      allow create: if logado() && request.auth.uid == uid && request.resource.data['size'] == 3;
       allow update: if logado() && (
         request.auth.uid == uid ||
         (resource.data.status == 'waiting'
@@ -39,7 +67,8 @@ service cloud.firestore {
     // Partidas e movimentos: só os dois jogadores leem e escrevem. Movimentos nunca mudam.
     match /matches/{id} {
       allow read: if logado() && (resource.data.a.uid == request.auth.uid || resource.data.b.uid == request.auth.uid);
-      allow create: if logado() && request.resource.data.a.uid == request.auth.uid;
+      allow create: if logado() && request.resource.data.a.uid == request.auth.uid
+        && request.resource.data.a.time.size() == 3 && request.resource.data.b.time.size() == 3;
       allow update, delete: if false;
 
       match /moves/{n} {

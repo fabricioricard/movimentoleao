@@ -67,9 +67,9 @@ export default function Partida({ backend, jogador, modo, init, meu, nicks, matc
     const venceu = s.venc === meu;
     const usadas = movs.filter((m) => m.lado === meu && m.t === "turn").reduce((a, m) => a + (m.acts ? m.acts.length : 0), 0);
     const flawless = venceu && s.lados[meu].u.every((u) => u.hp > 0);
-    const r = concluirPartida(jogador, { venceu, pvp: modo === "pvp", usadas, flawless });
-    setResultado({ venceu, motivo: s.motivo, ...r });
-    backend.salvar(r.jogador).catch(() => {});
+    const r = concluirPartida(jogador, { venceu, pvp: modo === "pvp", usadas, flawless, matchId });
+    setResultado({ venceu, motivo: s.motivo, pvp: modo === "pvp", ...r });
+    backend.salvar(r.jogador, modo === "pvp" ? { matchId, venceu, delta: r.delta } : null).catch(() => {});
   }, [s.venc]); // eslint-disable-line
 
   return (
@@ -80,6 +80,7 @@ export default function Partida({ backend, jogador, modo, init, meu, nicks, matc
           <div className="jg-modal-in">
             <h2>{resultado.venceu ? "Vitória!" : "Derrota"}</h2>
             <p className="jg-modal-sub">{resultado.motivo === "desistência" ? "Por desistência." : resultado.motivo === "tempo" ? "Por tempo esgotado." : resultado.venceu ? "Você venceu a batalha." : "Não foi desta vez."}</p>
+            {resultado.pvp && <p className="jg-pontos">{resultado.delta > 0 ? "+" : resultado.delta < 0 ? "−" : ""}{Math.abs(resultado.delta)} pontos · agora você tem <b>{resultado.jogador.pontos}</b></p>}
             {resultado.missoes.length > 0 && (
               <div className="jg-novos">
                 <h3>Missão cumprida</h3>

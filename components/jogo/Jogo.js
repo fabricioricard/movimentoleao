@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { obterBackend } from "../../lib/jogo/backend.js";
 import { PERSONAGENS, INICIAIS } from "../../lib/jogo/personagens.js";
-import { MISSOES, TOTAL, novoJogador, normalizarNick } from "../../lib/jogo/missoes.js";
+import { MISSOES, TOTAL, PONTOS_INICIAIS, PONTOS_VITORIA, PONTOS_DERROTA, novoJogador, normalizarNick } from "../../lib/jogo/missoes.js";
 import Avatar from "./Avatar.js";
 import Partida from "./Partida.js";
 import { Chip } from "./Batalha.js";
@@ -39,6 +39,7 @@ export default function Jogo() {
   const [partida, setPartida] = useState(null);
   const [espera, setEspera] = useState(0);
   const [ver, setVer] = useState(false);
+  const [rank, setRank] = useState(null);
   const filaRef = useRef(null);
 
   useEffect(() => {
@@ -55,6 +56,13 @@ export default function Jogo() {
     if (!jogador) return;
     setTime((t) => { const v = t.filter((id) => jogador.unlocked.includes(id)); return v.length ? v : [jogador.unlocked[0]]; });
   }, [jogador]);
+
+  useEffect(() => {
+    if (fase !== "menu" || !bk) return;
+    let vivo = true;
+    bk.ranking().then((r) => vivo && setRank(r)).catch(() => vivo && setRank([]));
+    return () => { vivo = false; };
+  }, [fase, bk]);
 
   useEffect(() => {
     if (fase !== "fila") return;
@@ -89,6 +97,7 @@ export default function Jogo() {
   }
 
   function entrarFila() {
+    if (time.length !== 3) { setErro("Online é só 3×3: escolha 3 personagens."); return; }
     setErro(""); setEspera(0); setFase("fila");
     filaRef.current = bk.entrarFila(jogador, time, async (id) => {
       filaRef.current = null;
@@ -135,7 +144,7 @@ export default function Jogo() {
         <div className="jg-fila-box">
           <div className="jg-spin" aria-hidden="true" />
           <h2>Procurando adversário…</h2>
-          <p>Fila de {time.length}×{time.length} · {espera}s</p>
+          <p>Fila do ranking 3×3 · {espera}s</p>
           {espera >= 25 && <p className="jg-peq">Ainda não tem ninguém na fila. Você pode esperar mais ou treinar contra o computador.</p>}
           <div className="jg-acoes">
             {espera >= 25 && <button type="button" className="jg-btn jg-btn-ouro" onClick={() => { sairFila(); treino(); }}>Treinar contra o computador</button>}
@@ -159,21 +168,39 @@ export default function Jogo() {
         <ul className="jg-stats">
           <li><b>{st.wins || 0}</b><span>vitórias</span></li>
           <li><b>{(st.played || 0) - (st.wins || 0)}</b><span>derrotas</span></li>
+          <li><b>{jogador.pontos === undefined ? PONTOS_INICIAIS : jogador.pontos}</b><span>pontos</span></li>
           <li><b>{jogador.unlocked.length}/{TOTAL}</b><span>personagens</span></li>
         </ul>
       </div>
 
       <section className="jg-sec">
         <h2>Monte seu time <small>({time.length} de até 3)</small></h2>
-        <p className="jg-peq">Quem entra na batalha: de 1 a 3 personagens. A fila junta quem escolheu o mesmo tamanho de time.</p>
+        <p className="jg-peq">O treino aceita de 1 a 3 personagens. O online (valendo ranking) é só 3×3: escolha 3 personagens. {jogador.unlocked.length < 3 ? `Você tem ${jogador.unlocked.length}: complete missões para liberar mais.` : ""}</p>
         <div className="jg-cartas">
           {jogador.unlocked.map((id) => <CartaPersonagem key={id} id={id} selecionado={time.includes(id)} onClick={() => alternar(id)} />)}
         </div>
         <div className="jg-acoes">
-          <button type="button" className="jg-btn jg-btn-ouro jg-btn-grande" onClick={entrarFila}>Jogar online ({time.length}×{time.length})</button>
+          <button type="button" className="jg-btn jg-btn-ouro jg-btn-grande" onClick={entrarFila} disabled={time.length !== 3}>{time.length === 3 ? "Jogar online (3×3 · ranking)" : jogador.unlocked.length < 3 ? "Online: libere 3 personagens" : `Online: escolha 3 (${time.length}/3)`}</button>
           <button type="button" className="jg-btn jg-btn-linha jg-btn-grande" onClick={treino}>Treinar contra o computador</button>
         </div>
         {erro && <p className="jg-erro" role="alert">{erro}</p>}
+      </section>
+
+      <section className="jg-sec">
+        <h2>Ranking</h2>
+        <p className="jg-peq">Só partidas online 3×3 valem pontos: todos começam com {PONTOS_INICIAIS}, vitória dá +{PONTOS_VITORIA} e derrota tira {PONTOS_DERROTA} (nunca abaixo de 0).</p>
+        {rank === null ? <p className="jg-peq">Carregando…</p> : rank.length === 0 ? <p className="jg-peq">Ainda não há jogadores no ranking.</p> : (
+          <ol className="jg-rank">
+            {rank.map((r, i) => (
+              <li key={r.nick + i} className={r.eu ? "jg-rank-eu" : ""}>
+                <span className="jg-rank-pos">{i + 1}º</span>
+                <span className="jg-rank-nick">{r.nick}{r.eu ? " (você)" : ""}</span>
+                <span className="jg-rank-vd">{r.vit}V · {r.der}D</span>
+                <b className="jg-rank-pts">{r.pontos}</b>
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
 
       <section className="jg-sec">
@@ -207,6 +234,7 @@ export default function Jogo() {
           <li>Cada turno você ganha energias aleatórias: Voto, Mídia, Dinheiro ou Articulação.</li>
           <li>Clique em um personagem, escolha uma habilidade e o alvo. Cada personagem usa uma habilidade por turno.</li>
           <li>Habilidades têm custo em energia e tempo de espera. “Qualquer” (*) gasta a energia que você tem mais.</li>
+          <li>Online só em 3×3 e vale ranking. O treino contra o computador aceita 1×1, 2×2 ou 3×3, sem pontos.</li>
           <li>Vence quem derrotar todos os personagens do adversário. O turno dura 20 segundos no 1×1, 30 no 2×2 e 40 no 3×3.</li>
           <li>Depois do turno 24, o desgaste tira vida de todos e a partida termina.</li>
         </ul>
