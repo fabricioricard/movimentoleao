@@ -43,7 +43,7 @@ export default function Partida({ backend, jogador, modo, init, meu, nicks, matc
     const t = setTimeout(() => {
       const cur = sRef.current; if (cur.venc || cur.lado === meu) return;
       setMovs((l) => [...l, { t: "turn", turn: cur.turno, acts: bot(cur, cur.lado), lado: cur.lado, ts: Date.now() }]);
-    }, 1200);
+    }, 700);
     return () => clearTimeout(t);
   }, [modo, s, meu]);
 

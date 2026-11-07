@@ -131,3 +131,8 @@
   .jg-stats { gap: 16px; }
 }
 .jg-sec > .jg-btn { justify-self: start; }
+
+/* Personagens cartoon: leve balanço e contorno que combina com o tema */
+.jg-av { filter: drop-shadow(0 3px 0 rgba(0,0,0,.35)); transition: transform .15s; }
+@media (prefers-reduced-motion: no-preference) { .jg-av { animation: jg-bob 2.6s ease-in-out infinite; } }
+@keyframes jg-bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
