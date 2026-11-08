@@ -249,3 +249,11 @@ body.jg-batalha .jg-fundo { padding-top: 14px; padding-bottom: 14px; }
   .jg-sk-desc { font-size: .85rem; }
   .jg-painel { padding: 14px 16px; }
 }
+
+/* Centro da arena: VS e botão centralizados na coluna */
+.jg-centro { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; width: 100%; }
+.jg-centro .jg-barra { display: flex; flex-direction: column; align-items: center; width: 100%; gap: 10px; }
+.jg-centro .jg-btn-grande { width: 100%; max-width: 200px; margin: 0; }
+.jg-resumo { text-align: center; justify-items: center; }
+@media (max-width: 760px) { .jg-centro { flex-direction: row; flex-wrap: wrap; justify-content: center; } .jg-centro .jg-barra { width: auto; } }
+.jg-n { display: block; font-size: .8rem; font-weight: 700; margin-top: 2px; opacity: .8; }

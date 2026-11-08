@@ -171,7 +171,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
         <span className="jg-vs" aria-hidden="true">VS</span>
         <div className="jg-barra">
         <button type="button" className="jg-btn jg-btn-ouro jg-btn-grande" disabled={!minhaVez || !val.ok || aguardando} onClick={() => onEnviar({ t: "turn", turn: s.turno, acts: lista })}>
-          {minhaVez ? (lista.length ? `Encerrar turno (${lista.length} ação${lista.length > 1 ? "ões" : ""})` : "Passar o turno") : "Aguardando adversário…"}
+          {minhaVez ? (lista.length ? <>Encerrar turno<small className="jg-n">{lista.length} {lista.length > 1 ? "ações" : "ação"}</small></> : "Passar o turno") : "Aguardando adversário…"}
         </button>
         {minhaVez && lista.length > 0 && <span className="jg-resumo">{lista.map((a, i) => <span key={i}>{PERSONAGENS[s.lados[meu].u[a.u].id].curto}: {PERSONAGENS[s.lados[meu].u[a.u].id].skills[a.s].nome} {alvoNome(a)}</span>)}</span>}
       </div>
