@@ -204,3 +204,48 @@
 .jg-rank-vd { font-size: .85rem; color: var(--suave); } .jg-rank-pts { text-align: right; font-size: 1.15rem; }
 .jg-pontos { font-size: 1.1rem; margin: 6px 0; }
 .jg-btn:disabled { opacity: .55; cursor: not-allowed; }
+
+.jg-bt-botoes { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.jg-som { padding-left: 14px; padding-right: 14px; }
+
+/* ---------- Tela de batalha numa tela só (sem rolar): você | centro com o botão | adversário ---------- */
+.jg-bt { grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr); grid-template-areas: "topo topo topo" "meu centro ini" "meio meio meio" "painel painel painel"; gap: 10px; align-items: stretch; }
+.jg-centro { grid-area: centro; align-self: center; display: grid; gap: 12px; justify-items: center; text-align: center; }
+.jg-vs { background: var(--ouro, #d9a21b); color: #1b1300; font-weight: 900; font-size: 1rem; border: 3px solid #1a1424; border-radius: 99px; padding: 5px 12px; }
+.jg-centro .jg-barra { width: 100%; justify-items: stretch; gap: 10px; }
+.jg-centro .jg-btn-grande { width: 100%; padding: 16px 10px; font-size: 1.05rem; line-height: 1.15; white-space: normal; }
+.jg-resumo { display: grid; gap: 3px; font-size: .78rem; color: var(--suave); text-align: left; }
+.jg-lado-meu::after { display: none; }
+.jg-lado { padding: 10px 12px; gap: 8px; }
+.jg-fila { gap: 8px; }
+.jg-fila .jg-un { flex: 0 1 130px; padding: 8px 6px 6px; }
+.jg-meio { min-height: 0; }
+.jg-log { min-height: 0; height: 66px; padding: 6px 12px; font-size: .85rem; overflow: hidden; }
+.jg-painel { padding: 10px 12px; gap: 8px; }
+.jg-skills { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.jg-sk { padding: 8px 10px; gap: 4px; }
+.jg-sk-desc { font-size: .78rem; line-height: 1.25; }
+.jg-bt-topo { padding: 0; }
+@media (max-height: 860px) and (min-width: 761px) {
+  .jg-un svg { width: 58px; height: 58px; }
+  .jg-fila .jg-un { padding: 6px 4px 4px; }
+  .jg-log { height: 52px; }
+  .jg-sk-meta { display: none; }
+}
+@media (max-width: 1000px) and (min-width: 761px) { .jg-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } .jg-bt { grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .jg-bt { grid-template-columns: 1fr; grid-template-areas: "topo" "ini" "centro" "meu" "meio" "painel"; }
+  .jg-centro { grid-template-columns: auto 1fr; width: 100%; }
+  .jg-skills { grid-template-columns: minmax(0, 1fr); }
+}
+
+body.jg-batalha .pagina-hero, body.jg-batalha footer { display: none; }
+body.jg-batalha .jg-fundo { padding-top: 14px; padding-bottom: 14px; }
+@media (min-height: 900px) and (min-width: 1000px) {
+  .jg-un svg { width: 84px; height: 84px; }
+  .jg-fila .jg-un { flex-basis: 150px; padding: 12px 8px 8px; }
+  .jg-lado { padding: 14px 16px; gap: 10px; }
+  .jg-log { height: 92px; font-size: .92rem; }
+  .jg-sk-desc { font-size: .85rem; }
+  .jg-painel { padding: 14px 16px; }
+}

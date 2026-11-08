@@ -70,6 +70,11 @@ export default function Jogo() {
     return () => clearInterval(iv);
   }, [fase]);
   useEffect(() => () => { if (filaRef.current) filaRef.current.sair(); }, []);
+  // Na batalha some o banner da página (e o rodapé), para a arena caber inteira na tela, sem rolar.
+  useEffect(() => {
+    document.body.classList.toggle("jg-batalha", fase === "batalha");
+    return () => document.body.classList.remove("jg-batalha");
+  }, [fase]);
 
   async function criar(e) {
     e.preventDefault(); setErro("");

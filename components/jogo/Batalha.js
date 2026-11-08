@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { PERSONAGENS, ENERGIA_NOME, HP } from "../../lib/jogo/personagens.js";
 import { validar, pagar, atordoado, outro } from "../../lib/jogo/motor.js";
 import Avatar from "./Avatar.js";
+import { lerPref, salvarPref, tocar, falar, tocarArquivo } from "../../lib/jogo/som.js";
 
 // ---- Efeitos visuais: montados a partir dos eventos do último movimento (s.ev) ----
 const ICO_FX = { stun: "💫", shield: "🛡", buff: "⬆", weak: "⬇", def: "◈", inv: "✦", dot: "☠", drain: "⚡", gain: "⚡" };
@@ -21,7 +22,7 @@ function montarFx(s) {
     if (e.k === "use") {
       g += 1;
       const sk = PERSONAGENS[s.lados[e.lado].u[e.u].id].skills[e.s];
-      casts[`${e.lado}${e.u}`] = { nome: sk.nome, tipo: tipoDe(sk), d: g * PASSO };
+      casts[`${e.lado}${e.u}`] = { nome: sk.nome, tipo: tipoDe(sk), d: g * PASSO, pid: s.lados[e.lado].u[e.u].id, voz: sk.voz || PERSONAGENS[s.lados[e.lado].u[e.u].id].voz };
       return;
     }
     if (e.dot) { pos.push(e); return; }
@@ -53,7 +54,7 @@ function Unidade({ u, lado, i, meu, foco, marcada, mira, onClick, acao, fx = [],
   useEffect(() => { if (u.hp !== ant.current) { setFlash(u.hp < ant.current ? "dano" : "cura"); const t = setTimeout(() => setFlash(null), 600); ant.current = u.hp; return () => clearTimeout(t); } }, [u.hp]);
   return (
     <button type="button" className={`jg-un ${meu ? "jg-meu" : "jg-ini"} ${u.hp <= 0 ? "jg-morto" : ""} ${foco ? "jg-foco" : ""} ${mira ? "jg-mira" : ""} ${flash ? "jg-flash-" + flash : ""} ${cast ? "jg-cast jg-lunge-" + (meu ? "meu" : "ini") : ""} ${fx.some((x) => x.forte) ? "jg-forte" : ""}`} style={{ "--d": (cast ? cast.d : 0) + "ms", "--dh": (fx.find((x) => x.forte) || { d: 0 }).d + "ms" }} onClick={onClick} disabled={false} aria-label={`${p.nome}, ${u.hp} de vida`}>
-      <span className="jg-av-w"><Avatar av={p.avatar} tamanho={84} morto={u.hp <= 0} /></span>
+      <span className="jg-av-w"><Avatar av={p.avatar} tamanho={72} morto={u.hp <= 0} /></span>
       <span className="jg-fxs" aria-hidden="true">
         {cast && <span className={`jg-cast-nome jg-tipo-${cast.tipo}`}>{cast.nome}</span>}
         {fx.map((x, k) => (
@@ -81,6 +82,10 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
   const vez = s.turno;
   const [fx, setFx] = useState({ itens: [], casts: {}, id: "" });
   const [tremer, setTremer] = useState(false);
+  const [pref, setPref] = useState({ efeitos: true, voz: true });
+  const prefRef = useRef(pref);
+  useEffect(() => { const p0 = lerPref(); setPref(p0); prefRef.current = p0; }, []);
+  function mudarPref(k) { const n = { ...prefRef.current, [k]: !prefRef.current[k] }; prefRef.current = n; setPref(n); salvarPref(n); }
   const visto = useRef("");
   useEffect(() => {
     const chave = `${s.turno}:${s.log.length}`;
@@ -90,6 +95,13 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
     const f = montarFx(s);
     setFx({ ...f, id: chave });
     const ts = [setTimeout(() => setFx({ itens: [], casts: {}, id: "" }), f.total)];
+    // sons: uso da habilidade (com narração) e impactos, no mesmo ritmo dos efeitos visuais
+    Object.values(f.casts).forEach((c) => ts.push(setTimeout(() => {
+      const pf = prefRef.current;
+      if (pf.efeitos) tocar(c.tipo);
+      if (pf.voz) { if (c.voz) tocarArquivo(c.voz); else falar(c.nome, c.pid); }
+    }, c.d)));
+    f.itens.forEach((x) => { if (x.k === "dmg") ts.push(setTimeout(() => prefRef.current.efeitos && tocar(x.forte ? "impacto-forte" : "impacto"), x.d)); else if (x.k === "st") ts.push(setTimeout(() => prefRef.current.efeitos && tocar("efeito"), x.d)); });
     if (f.forte !== undefined) { ts.push(setTimeout(() => setTremer(true), f.forte)); ts.push(setTimeout(() => setTremer(false), f.forte + 450)); }
     return () => ts.forEach(clearTimeout);
   }, [s]);
@@ -138,7 +150,11 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
           {s.venc ? "Fim da partida" : minhaVez ? "Seu turno" : `Turno de ${nicks[ini]}`}
           {!s.venc && <span className="jg-tempo">{Math.max(0, seg)}s</span>}
         </div>
-        <button type="button" className="jg-btn jg-btn-fraco" onClick={onDesistir}>Desistir</button>
+        <div className="jg-bt-botoes">
+          <button type="button" className="jg-btn jg-btn-fraco jg-som" onClick={() => mudarPref("efeitos")} aria-pressed={pref.efeitos} title="Efeitos sonoros">{pref.efeitos ? "🔊 Sons" : "🔇 Sons"}</button>
+          <button type="button" className="jg-btn jg-btn-fraco jg-som" onClick={() => mudarPref("voz")} aria-pressed={pref.voz} title="Narração do nome da habilidade">{pref.voz ? "🗣 Voz" : "🤐 Voz"}</button>
+          <button type="button" className="jg-btn jg-btn-fraco" onClick={onDesistir}>Desistir</button>
+        </div>
       </div>
 
       <div className="jg-lado jg-lado-ini">
@@ -151,8 +167,18 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
         <Pool pool={s.lados[ini].pool} />
       </div>
 
+      <div className="jg-centro">
+        <span className="jg-vs" aria-hidden="true">VS</span>
+        <div className="jg-barra">
+        <button type="button" className="jg-btn jg-btn-ouro jg-btn-grande" disabled={!minhaVez || !val.ok || aguardando} onClick={() => onEnviar({ t: "turn", turn: s.turno, acts: lista })}>
+          {minhaVez ? (lista.length ? `Encerrar turno (${lista.length} ação${lista.length > 1 ? "ões" : ""})` : "Passar o turno") : "Aguardando adversário…"}
+        </button>
+        {minhaVez && lista.length > 0 && <span className="jg-resumo">{lista.map((a, i) => <span key={i}>{PERSONAGENS[s.lados[meu].u[a.u].id].curto}: {PERSONAGENS[s.lados[meu].u[a.u].id].skills[a.s].nome} {alvoNome(a)}</span>)}</span>}
+      </div>
+      </div>
+
       <div className="jg-meio">
-        <div className="jg-log" aria-live="polite">{s.log.slice(-5).map((t, i) => (<p key={s.log.length - 5 + i}>{t}</p>))}</div>
+        <div className="jg-log" aria-live="polite">{s.log.slice(-3).map((t, i) => (<p key={s.log.length - 3 + i}>{t}</p>))}</div>
       </div>
 
       <div className="jg-lado jg-lado-meu">
@@ -189,12 +215,6 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
         </div>
       )}
 
-      <div className="jg-barra">
-        <button type="button" className="jg-btn jg-btn-ouro jg-btn-grande" disabled={!minhaVez || !val.ok || aguardando} onClick={() => onEnviar({ t: "turn", turn: s.turno, acts: lista })}>
-          {minhaVez ? (lista.length ? `Encerrar turno (${lista.length} ação${lista.length > 1 ? "ões" : ""})` : "Passar o turno") : "Aguardando adversário…"}
-        </button>
-        {minhaVez && lista.length > 0 && <span className="jg-resumo">{lista.map((a, i) => <span key={i}>{PERSONAGENS[s.lados[meu].u[a.u].id].curto}: {PERSONAGENS[s.lados[meu].u[a.u].id].skills[a.s].nome} {alvoNome(a)}</span>)}</span>}
-      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import Batalha from "./Batalha.js";
 
 // Controla uma partida: contra o computador (local) ou contra outro jogador (movimentos pelo servidor).
 export default function Partida({ backend, jogador, modo, init, meu, nicks, matchId, onFim, onSair }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   const [movs, setMovs] = useState([]);
   const [seg, setSeg] = useState(Math.round(turnoMs(init) / 1000));
   const [resultado, setResultado] = useState(null);
