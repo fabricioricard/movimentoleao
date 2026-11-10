@@ -80,8 +80,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
   const [acts, setActs] = useState({});
   const [mira, setMira] = useState(null);
   const vez = s.turno;
-  // Lotes de efeitos: o de uma jogada começa só depois que o da anterior termina (assim a resposta
-  // do adversário não corta as habilidades que você acabou de usar).
+  // Lotes de efeitos: os de jogadas diferentes se sobrepõem e nenhum é cortado pela jogada seguinte.
   const [lotes, setLotes] = useState([]);
   const fimRef = useRef(0);
   const timers = useRef([]);
@@ -99,7 +98,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
     visto.current = chave;
     if (!s.ev || !s.ev.length) return;
     const f0 = montarFx(s);
-    const off = Math.max(0, fimRef.current - Date.now());
+    const off = 0; // sem fila: a resposta do adversário aparece na hora, sobrepondo os efeitos anteriores
     const f = {
       ...f0,
       itens: f0.itens.map((x, n) => ({ ...x, d: x.d + off, id: `${chave}-${n}` })),
