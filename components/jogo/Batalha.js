@@ -58,7 +58,7 @@ function Unidade({ u, lado, i, meu, foco, marcada, mira, onClick, acao, fx = [],
       <span className="jg-fxs" aria-hidden="true">
         {cast && <span className={`jg-cast-nome jg-tipo-${cast.tipo}`}>{cast.nome}</span>}
         {fx.map((x, k) => (
-          <span key={k} className={`jg-fx-g jg-fx-${x.k}`} style={{ "--fd": x.d + "ms" }}>
+          <span key={x.id || k} className={`jg-fx-g jg-fx-${x.k}`} style={{ "--fd": x.d + "ms" }}>
             <i className="jg-burst" />
             <b className="jg-fx-txt">{x.txt}</b>
           </span>
@@ -80,7 +80,13 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
   const [acts, setActs] = useState({});
   const [mira, setMira] = useState(null);
   const vez = s.turno;
-  const [fx, setFx] = useState({ itens: [], casts: {}, id: "" });
+  // Lotes de efeitos: o de uma jogada começa só depois que o da anterior termina (assim a resposta
+  // do adversário não corta as habilidades que você acabou de usar).
+  const [lotes, setLotes] = useState([]);
+  const fimRef = useRef(0);
+  const timers = useRef([]);
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+  const fx = { itens: lotes.flatMap((l) => l.itens), casts: Object.assign({}, ...lotes.map((l) => l.casts)) };
   const [tremer, setTremer] = useState(false);
   const [pref, setPref] = useState({ efeitos: true, voz: true });
   const prefRef = useRef(pref);
@@ -92,18 +98,26 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
     if (visto.current === chave) return;
     visto.current = chave;
     if (!s.ev || !s.ev.length) return;
-    const f = montarFx(s);
-    setFx({ ...f, id: chave });
-    const ts = [setTimeout(() => setFx({ itens: [], casts: {}, id: "" }), f.total)];
-    // sons: uso da habilidade (com narração) e impactos, no mesmo ritmo dos efeitos visuais
+    const f0 = montarFx(s);
+    const off = Math.max(0, fimRef.current - Date.now());
+    const f = {
+      ...f0,
+      itens: f0.itens.map((x, n) => ({ ...x, d: x.d + off, id: `${chave}-${n}` })),
+      casts: Object.fromEntries(Object.entries(f0.casts).map(([k, c]) => [k, { ...c, d: c.d + off }])),
+      forte: f0.forte === undefined ? undefined : f0.forte + off,
+    };
+    fimRef.current = Date.now() + off + f0.total;
+    setLotes((l) => [...l, { id: chave, itens: f.itens, casts: f.casts }]);
+    const ts = timers.current;
+    ts.push(setTimeout(() => setLotes((l) => l.filter((x) => x.id !== chave)), off + f0.total));
+    // sons: uso da habilidade (com voz só de quem joga) e impactos, no mesmo ritmo dos efeitos visuais
     Object.values(f.casts).forEach((c) => ts.push(setTimeout(() => {
       const pf = prefRef.current;
       if (pf.efeitos) tocar(c.tipo);
-      if (pf.voz && c.lado === meu) tocarVoz(c.voz, c.nome, c.pid); // só a voz de quem está jogando; as do adversário ficam só nos efeitos
+      if (pf.voz && c.lado === meu) tocarVoz(c.voz, c.nome, c.pid);
     }, c.d)));
     f.itens.forEach((x) => { if (x.k === "dmg") ts.push(setTimeout(() => prefRef.current.efeitos && tocar(x.forte ? "impacto-forte" : "impacto"), x.d)); else if (x.k === "st") ts.push(setTimeout(() => prefRef.current.efeitos && tocar("efeito"), x.d)); });
     if (f.forte !== undefined) { ts.push(setTimeout(() => setTremer(true), f.forte)); ts.push(setTimeout(() => setTremer(false), f.forte + 450)); }
-    return () => ts.forEach(clearTimeout);
   }, [s]);
 
   useEffect(() => { setActs({}); setMira(null); }, [vez]);
