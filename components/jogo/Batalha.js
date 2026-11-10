@@ -22,7 +22,7 @@ function montarFx(s) {
     if (e.k === "use") {
       g += 1;
       const sk = PERSONAGENS[s.lados[e.lado].u[e.u].id].skills[e.s];
-      casts[`${e.lado}${e.u}`] = { nome: sk.nome, tipo: tipoDe(sk), d: g * PASSO, pid: s.lados[e.lado].u[e.u].id, voz: sk.voz || `/jogo/voz/${s.lados[e.lado].u[e.u].id}${e.s + 1}.mp3` };
+      casts[`${e.lado}${e.u}`] = { lado: e.lado, nome: sk.nome, tipo: tipoDe(sk), d: g * PASSO, pid: s.lados[e.lado].u[e.u].id, voz: sk.voz || `/jogo/voz/${s.lados[e.lado].u[e.u].id}${e.s + 1}.mp3` };
       return;
     }
     if (e.dot) { pos.push(e); return; }
@@ -99,7 +99,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
     Object.values(f.casts).forEach((c) => ts.push(setTimeout(() => {
       const pf = prefRef.current;
       if (pf.efeitos) tocar(c.tipo);
-      if (pf.voz) tocarVoz(c.voz, c.nome, c.pid);
+      if (pf.voz && c.lado === meu) tocarVoz(c.voz, c.nome, c.pid); // só a voz de quem está jogando; as do adversário ficam só nos efeitos
     }, c.d)));
     f.itens.forEach((x) => { if (x.k === "dmg") ts.push(setTimeout(() => prefRef.current.efeitos && tocar(x.forte ? "impacto-forte" : "impacto"), x.d)); else if (x.k === "st") ts.push(setTimeout(() => prefRef.current.efeitos && tocar("efeito"), x.d)); });
     if (f.forte !== undefined) { ts.push(setTimeout(() => setTremer(true), f.forte)); ts.push(setTimeout(() => setTremer(false), f.forte + 450)); }
