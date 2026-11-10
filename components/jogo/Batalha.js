@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { PERSONAGENS, ENERGIA_NOME, HP } from "../../lib/jogo/personagens.js";
 import { validar, pagar, atordoado, outro } from "../../lib/jogo/motor.js";
 import Avatar from "./Avatar.js";
-import { lerPref, salvarPref, tocar, falar, tocarArquivo } from "../../lib/jogo/som.js";
+import { lerPref, salvarPref, tocar, tocarVoz } from "../../lib/jogo/som.js";
 
 // ---- Efeitos visuais: montados a partir dos eventos do último movimento (s.ev) ----
 const ICO_FX = { stun: "💫", shield: "🛡", buff: "⬆", weak: "⬇", def: "◈", inv: "✦", dot: "☠", drain: "⚡", gain: "⚡" };
@@ -22,7 +22,7 @@ function montarFx(s) {
     if (e.k === "use") {
       g += 1;
       const sk = PERSONAGENS[s.lados[e.lado].u[e.u].id].skills[e.s];
-      casts[`${e.lado}${e.u}`] = { nome: sk.nome, tipo: tipoDe(sk), d: g * PASSO, pid: s.lados[e.lado].u[e.u].id, voz: sk.voz || PERSONAGENS[s.lados[e.lado].u[e.u].id].voz };
+      casts[`${e.lado}${e.u}`] = { nome: sk.nome, tipo: tipoDe(sk), d: g * PASSO, pid: s.lados[e.lado].u[e.u].id, voz: sk.voz || `/jogo/voz/${s.lados[e.lado].u[e.u].id}${e.s + 1}.mp3` };
       return;
     }
     if (e.dot) { pos.push(e); return; }
@@ -54,7 +54,7 @@ function Unidade({ u, lado, i, meu, foco, marcada, mira, onClick, acao, fx = [],
   useEffect(() => { if (u.hp !== ant.current) { setFlash(u.hp < ant.current ? "dano" : "cura"); const t = setTimeout(() => setFlash(null), 600); ant.current = u.hp; return () => clearTimeout(t); } }, [u.hp]);
   return (
     <button type="button" className={`jg-un ${meu ? "jg-meu" : "jg-ini"} ${u.hp <= 0 ? "jg-morto" : ""} ${foco ? "jg-foco" : ""} ${mira ? "jg-mira" : ""} ${flash ? "jg-flash-" + flash : ""} ${cast ? "jg-cast jg-lunge-" + (meu ? "meu" : "ini") : ""} ${fx.some((x) => x.forte) ? "jg-forte" : ""}`} style={{ "--d": (cast ? cast.d : 0) + "ms", "--dh": (fx.find((x) => x.forte) || { d: 0 }).d + "ms" }} onClick={onClick} disabled={false} aria-label={`${p.nome}, ${u.hp} de vida`}>
-      <span className="jg-av-w"><Avatar av={p.avatar} tamanho={72} morto={u.hp <= 0} /></span>
+      <span className="jg-av-w"><Avatar av={p.avatar} pid={p.id} tamanho={72} morto={u.hp <= 0} /></span>
       <span className="jg-fxs" aria-hidden="true">
         {cast && <span className={`jg-cast-nome jg-tipo-${cast.tipo}`}>{cast.nome}</span>}
         {fx.map((x, k) => (
@@ -99,7 +99,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
     Object.values(f.casts).forEach((c) => ts.push(setTimeout(() => {
       const pf = prefRef.current;
       if (pf.efeitos) tocar(c.tipo);
-      if (pf.voz) { if (c.voz) tocarArquivo(c.voz); else falar(c.nome, c.pid); }
+      if (pf.voz) tocarVoz(c.voz, c.nome, c.pid);
     }, c.d)));
     f.itens.forEach((x) => { if (x.k === "dmg") ts.push(setTimeout(() => prefRef.current.efeitos && tocar(x.forte ? "impacto-forte" : "impacto"), x.d)); else if (x.k === "st") ts.push(setTimeout(() => prefRef.current.efeitos && tocar("efeito"), x.d)); });
     if (f.forte !== undefined) { ts.push(setTimeout(() => setTremer(true), f.forte)); ts.push(setTimeout(() => setTremer(false), f.forte + 450)); }

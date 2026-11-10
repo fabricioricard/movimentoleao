@@ -20,7 +20,13 @@ function Boca({ expr }) {
   return <><path d="M45 78Q60 94 75 78Q60 83 45 78Z" fill="#7d1d2c" {...S} /><path d="M48 79.5Q60 83.5 72 79.5" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" /></>;
 }
 
-export default function Avatar({ av, tamanho = 64, bloqueado = false, morto = false }) {
+import { useState } from "react";
+
+// Arte própria: public/jogo/avatar/<id>.png (ou .webp/.jpg; também aceita direto em public/jogo/). Sem arquivo, usa o desenho cartoon.
+const EXT = ["png", "webp", "jpg", "jpeg"];
+
+export default function Avatar({ av, pid, tamanho = 64, bloqueado = false, morto = false }) {
+  const [falhas, setFalhas] = useState(0);
   const { fundo = "#2a3a5f", pele = "#efc6a0", cabelo = "curto", cor = "#333", oculos, barba, barbaCor, gravata = "#f2b705", expr = "sorriso", img } = av || {};
   const fx = morto ? { filter: "grayscale(1) brightness(.6)" } : undefined;
 
@@ -34,8 +40,9 @@ export default function Avatar({ av, tamanho = 64, bloqueado = false, morto = fa
       </svg>
     );
 
-  if (img)
-    return <img src={img} alt="" width={tamanho} height={tamanho} style={{ borderRadius: 18, objectFit: "cover", border: `3px solid ${L}`, ...fx }} />;
+  const fontes = img ? [img] : pid ? [...EXT.map((e) => `/jogo/avatar/${pid}.${e}`), ...EXT.map((e) => `/jogo/${pid}.${e}`)] : [];
+  if (falhas < fontes.length)
+    return <img src={fontes[falhas]} alt="" width={tamanho} height={tamanho} onError={() => setFalhas(falhas + 1)} style={{ borderRadius: 18, objectFit: "cover", border: `3px solid ${L}`, ...fx }} />;
 
   return (
     <svg viewBox="0 0 120 120" width={tamanho} height={tamanho} role="img" aria-hidden="true" style={fx} className="jg-av">

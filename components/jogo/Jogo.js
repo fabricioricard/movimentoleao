@@ -12,7 +12,7 @@ function CartaPersonagem({ id, bloqueado, selecionado, onClick, mostrarSkills })
   return (
     <div className={`jg-carta ${selecionado ? "jg-carta-sel" : ""} ${bloqueado ? "jg-carta-bloq" : ""}`}>
       <button type="button" className="jg-carta-btn" onClick={onClick} disabled={!onClick} aria-pressed={!!selecionado}>
-        <Avatar av={p.avatar} tamanho={84} bloqueado={bloqueado} />
+        <Avatar av={p.avatar} pid={p.id} tamanho={84} bloqueado={bloqueado} />
         <strong>{bloqueado ? "Bloqueado" : p.nome}</strong>
         <span>{bloqueado ? "Complete missões" : p.titulo}</span>
       </button>
@@ -26,6 +26,8 @@ function CartaPersonagem({ id, bloqueado, selecionado, onClick, mostrarSkills })
     </div>
   );
 }
+
+const limpo = (p) => (p ? { ...p, unlocked: (p.unlocked || []).filter((id) => PERSONAGENS[id]) } : p);
 
 export default function Jogo() {
   const [bk, setBk] = useState(null);
@@ -47,7 +49,7 @@ export default function Jogo() {
     obterBackend().then(async (b) => {
       const p = await b.me();
       if (!vivo) return;
-      setBk(b); if (p) { setJogador(p); setFase("menu"); } else setFase("nick");
+      setBk(b); if (p) { setJogador(limpo(p)); setFase("menu"); } else setFase("nick");
     }).catch((e) => { setErro("Não foi possível conectar ao servidor do jogo. " + (e && e.message ? e.message : "")); setFase("erro"); });
     return () => { vivo = false; };
   }, []);
@@ -82,7 +84,7 @@ export default function Jogo() {
     if (!n) { setErro("O nick precisa ter de 3 a 16 caracteres: letras, números ou _ (sem acentos ou símbolos)."); return; }
     try {
       const p = await bk.registrar(n, novoJogador(n.nick, bk.uid, inicial));
-      setJogador(p); setFase("menu");
+      setJogador(limpo(p)); setFase("menu");
     } catch (er) {
       setErro(er.message === "NICK_EM_USO" ? "Esse nick já está em uso. Escolha outro." : er.message === "JA_TEM_CONTA" ? "Este navegador já tem um nick registrado." : "Erro ao registrar o nick. Tente de novo.");
     }

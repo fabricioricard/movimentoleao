@@ -257,3 +257,7 @@ body.jg-batalha .jg-fundo { padding-top: 14px; padding-bottom: 14px; }
 .jg-resumo { text-align: center; justify-items: center; }
 @media (max-width: 760px) { .jg-centro { flex-direction: row; flex-wrap: wrap; justify-content: center; } .jg-centro .jg-barra { width: auto; } }
 .jg-n { display: block; font-size: .8rem; font-weight: 700; margin-top: 2px; opacity: .8; }
+/* Na batalha, o fundo da página inteira fica azul (sem faixa branca embaixo) */
+body.jg-batalha { background: #08183a; }
+body.jg-batalha main { background: #08183a; min-height: calc(100vh - 82px); }
+body.jg-batalha .jg-fundo { min-height: calc(100vh - 82px); }
