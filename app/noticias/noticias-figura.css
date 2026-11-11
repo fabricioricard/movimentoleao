@@ -1,0 +1,3 @@
+.art-fig{margin:28px 0 32px;padding:0}
+.art-fig img{display:block;width:100%;height:auto;max-height:520px;object-fit:cover;border-radius:4px}
+.art-fig figcaption{margin-top:8px;font-size:.85rem;line-height:1.4;color:#5b6577;text-align:left}

@@ -4,6 +4,7 @@ import Topo from "../../../components/Topo";
 import Rodape from "../../../components/Rodape";
 import { NOTICIAS } from "../../../lib/noticias-dados";
 import "../noticias.css";
+import "../noticias-figura.css";
 
 export function generateStaticParams() {
   return NOTICIAS.map((n) => ({ slug: n.slug }));
@@ -31,6 +32,13 @@ export default async function Materia({ params }) {
               <span className="art-tag">{n.tag}</span>
               <h1>{n.titulo}</h1>
               <p className="art-resumo">{n.resumo}</p>
+              {n.imagem ? (
+                <figure className="art-fig">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={n.imagem} alt={n.imagemAlt || n.titulo} />
+                  {n.credito ? <figcaption>{n.credito}</figcaption> : null}
+                </figure>
+              ) : null}
               {n.corpo.map((b, i) =>
                 b.h ? <h2 key={i}>{b.h}</h2> : b.ul ? <ul key={i}>{b.ul.map((t) => <li key={t}>{t}</li>)}</ul> : b.ol ? <ol key={i}>{b.ol.map((t) => <li key={t}>{t}</li>)}</ol> : <p key={i}>{b.p}</p>
               )}
