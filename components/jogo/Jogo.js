@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { obterBackend } from "../../lib/jogo/backend.js";
+import { VERSAO } from "../../lib/jogo/motor.js";
 import { PERSONAGENS, INICIAIS } from "../../lib/jogo/personagens.js";
 import { MISSOES, TOTAL, PONTOS_INICIAIS, PONTOS_VITORIA, PONTOS_DERROTA, novoJogador, normalizarNick } from "../../lib/jogo/missoes.js";
 import { gerarCodigo, formatarCodigo } from "../../lib/jogo/codigo.js";
@@ -141,6 +142,7 @@ export default function Jogo() {
       filaRef.current = null;
       const m = await bk.partida(id);
       if (!m) { setErro("Partida não encontrada."); setFase("menu"); return; }
+      if (m.ver !== VERSAO) { setErro("O adversário está com uma versão diferente do jogo. Atualize a página (Ctrl+F5) e entre na fila de novo."); setFase("menu"); return; }
       const meuLado = m.a.uid === bk.uid ? "a" : "b";
       const init = { seed: m.seed, timeA: m.a.time, timeB: m.b.time, primeiro: m.primeiro, t0: m.t0, uidA: m.a.uid };
       setPartida({ modo: "pvp", matchId: id, init, meu: meuLado, nicks: { a: m.a.nick, b: m.b.nick } });
