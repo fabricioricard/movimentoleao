@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { obterBackend } from "../../lib/jogo/backend.js";
 import { PERSONAGENS, INICIAIS } from "../../lib/jogo/personagens.js";
 import { MISSOES, TOTAL, PONTOS_INICIAIS, PONTOS_VITORIA, PONTOS_DERROTA, novoJogador, normalizarNick } from "../../lib/jogo/missoes.js";
+import { gerarCodigo, formatarCodigo } from "../../lib/jogo/codigo.js";
 import Avatar from "./Avatar.js";
 import Partida from "./Partida.js";
 import { Chip } from "./Batalha.js";
@@ -19,7 +20,7 @@ function CartaPersonagem({ id, bloqueado, selecionado, onClick, mostrarSkills })
       {mostrarSkills && !bloqueado && (
         <ul className="jg-carta-skills">
           {p.skills.map((sk) => (
-            <li key={sk.nome}><b>{sk.nome}</b> <span className="jg-sk-custo">{sk.custo.map((e, j) => <Chip key={j} e={e} />)}</span><em>{sk.desc}</em></li>
+            <li key={sk.nome}><b>{sk.nome}</b> <span className="jg-sk-custo">{sk.custo.length ? sk.custo.map((e, j) => <Chip key={j} e={e} />) : <span style={{ fontSize: ".72rem", fontWeight: 700, color: "#f2b705" }}>Grátis</span>}</span><em>{sk.desc}</em></li>
           ))}
         </ul>
       )}
@@ -35,6 +36,10 @@ export default function Jogo() {
   const [fase, setFase] = useState("carregando");
   const [erro, setErro] = useState("");
   const [nick, setNick] = useState("");
+  const [recuperando, setRecuperando] = useState(false);
+  const [codigoDigitado, setCodigoDigitado] = useState("");
+  const [codigoNovo, setCodigoNovo] = useState("");
+  const [copiou, setCopiou] = useState(false);
   const [inicial, setInicial] = useState(INICIAIS[0]);
   const [time, setTime] = useState([]);
   const [fila, setFila] = useState(null);
@@ -83,11 +88,37 @@ export default function Jogo() {
     const n = normalizarNick(nick);
     if (!n) { setErro("O nick precisa ter de 3 a 16 caracteres: letras, números ou _ (sem acentos ou símbolos)."); return; }
     try {
-      const p = await bk.registrar(n, novoJogador(n.nick, bk.uid, inicial));
-      setJogador(limpo(p)); setFase("menu");
+      const codigo = gerarCodigo();
+      const p = await bk.registrar(n, novoJogador(n.nick, bk.uid, inicial), codigo);
+      setJogador(limpo(p)); setCodigoNovo(codigo); setCopiou(false); setFase("codigo");
     } catch (er) {
       setErro(er.message === "NICK_EM_USO" ? "Esse nick já está em uso. Escolha outro." : er.message === "JA_TEM_CONTA" ? "Este navegador já tem um nick registrado." : "Erro ao registrar o nick. Tente de novo.");
     }
+  }
+
+  async function recuperar(e) {
+    e.preventDefault(); setErro("");
+    const n = normalizarNick(nick);
+    if (!n) { setErro("Digite o nick exatamente como você o criou."); return; }
+    try {
+      const p = await bk.recuperar(n.chave, codigoDigitado);
+      setJogador(limpo(p)); setCodigoDigitado(""); setFase("menu");
+    } catch (er) {
+      setErro(er.message === "JA_TEM_CONTA" ? "Este navegador já tem um nick registrado." : "Nick ou código incorreto. Confira e tente de novo.");
+    }
+  }
+
+  async function gerarNovoCodigo() {
+    if (jogador.rec && !window.confirm("Gerar um código novo desativa o código antigo. Continuar?")) return;
+    setErro("");
+    try {
+      const c = gerarCodigo();
+      await bk.definirRecuperacao(jogador, c);
+      setJogador((j) => ({ ...j, rec: true })); setCodigoNovo(c); setCopiou(false); setFase("codigo");
+    } catch (er) { setErro("Não foi possível gerar o código agora. Tente de novo."); }
+  }
+  async function copiarCodigo() {
+    try { await navigator.clipboard.writeText(formatarCodigo(codigoNovo)); setCopiou(true); } catch { setCopiou(false); }
   }
 
   function alternar(id) {
@@ -123,6 +154,41 @@ export default function Jogo() {
   if (fase === "carregando") return <div className="jg"><p className="jg-centro">Carregando o jogo…</p></div>;
   if (fase === "erro") return <div className="jg"><p className="jg-erro">{erro}</p></div>;
 
+  if (fase === "codigo") {
+    return (
+      <div className="jg">
+        <div className="jg-nick-form">
+          <h2>Seu código de recuperação</h2>
+          <p>Anote este código e guarde em um lugar seguro. Se você limpar os dados do navegador ou trocar de aparelho, é com ele que recupera o nick <b>{jogador.nick}</b>, com os pontos e personagens.</p>
+          <p style={{ fontSize: "1.9rem", fontWeight: 800, letterSpacing: ".12em", textAlign: "center", margin: "18px 0", userSelect: "all" }}>{formatarCodigo(codigoNovo)}</p>
+          <p className="jg-peq">Ele só aparece agora. Quem tiver o código pode assumir o seu nick, então não compartilhe.</p>
+          <div className="jg-acoes">
+            <button type="button" className="jg-btn jg-btn-linha" onClick={copiarCodigo}>{copiou ? "Copiado ✔" : "Copiar código"}</button>
+            <button type="button" className="jg-btn jg-btn-ouro jg-btn-grande" onClick={() => { setCodigoNovo(""); setFase("menu"); }}>Já anotei, continuar</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (fase === "nick" && recuperando) {
+    return (
+      <div className="jg">
+        <form className="jg-nick-form" onSubmit={recuperar}>
+          <h2>Recuperar nick</h2>
+          <p>Digite o nick e o código de recuperação que você recebeu ao criá-lo.</p>
+          <label htmlFor="jg-nick-r">Nick</label>
+          <input id="jg-nick-r" value={nick} onChange={(e) => setNick(e.target.value)} maxLength={20} autoComplete="off" />
+          <label htmlFor="jg-cod-r">Código de recuperação</label>
+          <input id="jg-cod-r" value={codigoDigitado} onChange={(e) => setCodigoDigitado(e.target.value)} maxLength={20} autoComplete="off" placeholder="XXXX-XXXX-XXXX" />
+          {erro && <p className="jg-erro" role="alert">{erro}</p>}
+          <button type="submit" className="jg-btn jg-btn-ouro jg-btn-grande">Recuperar</button>
+          <button type="button" className="jg-btn jg-btn-fraco" onClick={() => { setRecuperando(false); setErro(""); }}>Voltar</button>
+        </form>
+      </div>
+    );
+  }
+
   if (fase === "nick") {
     return (
       <div className="jg">
@@ -139,7 +205,8 @@ export default function Jogo() {
           </div>
           {erro && <p className="jg-erro" role="alert">{erro}</p>}
           <button type="submit" className="jg-btn jg-btn-ouro jg-btn-grande">Entrar no jogo</button>
-          <p className="jg-peq">Seu nick fica ligado a este navegador. Se limpar os dados do navegador, o acesso a ele se perde.</p>
+          <p className="jg-peq">Ao criar o nick você recebe um código de recuperação. Guarde-o: se limpar os dados do navegador, é com ele que recupera o nick.</p>
+          <button type="button" className="jg-btn jg-btn-fraco" onClick={() => { setRecuperando(true); setErro(""); }}>Já tenho um nick: recuperar</button>
         </form>
       </div>
     );
@@ -208,6 +275,12 @@ export default function Jogo() {
             ))}
           </ol>
         )}
+      </section>
+
+      <section className="jg-sec">
+        <h2>Seu acesso</h2>
+        <p className="jg-peq">{jogador.rec ? "Seu nick tem um código de recuperação. Se perdeu o código, gere um novo (o antigo deixa de valer)." : "Seu nick ainda não tem código de recuperação. Gere um e guarde: sem ele, limpar os dados do navegador faz você perder o nick."}</p>
+        <button type="button" className="jg-btn jg-btn-linha" onClick={gerarNovoCodigo}>{jogador.rec ? "Gerar novo código" : "Gerar código de recuperação"}</button>
       </section>
 
       <section className="jg-sec">

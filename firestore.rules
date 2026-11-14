@@ -18,12 +18,30 @@ service cloud.firestore {
         && key.matches('^[a-z0-9_]{3,16}$')
         && request.resource.data.unlocked.size() == 1
         && request.resource.data.get('pontos', 1000) == 1000;
+      // Dono atual altera seus dados; ou quem prova o código de recuperação só troca o campo "uid" (nick recuperado).
       allow update: if logado()
-        && resource.data.uid == request.auth.uid
-        && request.resource.data.uid == resource.data.uid
         && request.resource.data.nick == resource.data.nick
-        && pontosOk();
+        && (
+          (resource.data.uid == request.auth.uid && request.resource.data.uid == resource.data.uid && pontosOk())
+          || recuperacaoOk(key)
+        );
       allow delete: if false;
+    }
+
+    // recuperar/{uid}: pedido temporário com o código digitado; as regras comparam o SHA-256 dele com players/{nick}.rec.
+    match /recuperar/{u} {
+      allow read, delete: if logado() && request.auth.uid == u;
+      allow create, update: if logado() && request.auth.uid == u
+        && request.resource.data.keys().hasOnly(['chave', 'codigo']);
+    }
+    function recuperacaoOk(key) {
+      let r = /databases/$(db)/documents/recuperar/$(request.auth.uid);
+      return resource.data.get('rec', '') != ''
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['uid'])
+        && exists(r)
+        && get(r).data.chave == key
+        && hashing.sha256(get(r).data.codigo).toHexString() == resource.data.rec;
     }
 
     // Pontos do ranking: só mudam junto com um resultado de partida (results/{partida}_{uid}), uma vez por partida.

@@ -215,7 +215,7 @@ export default function Batalha({ s, meu, nicks, seg, onEnviar, onDesistir, agua
                 <li key={k}>
                   <button type="button" className={`jg-sk ${sel ? "jg-sk-sel" : ""} ${mira && mira.u === foco.i && mira.s === k ? "jg-sk-mira" : ""}`} disabled={!ok && !sel} onClick={() => escolher(k)}>
                     <span className="jg-sk-nome">{sk.nome}</span>
-                    <span className="jg-sk-custo">{sk.custo.map((e, j) => <Chip key={j} e={e} />)}</span>
+                    <span className="jg-sk-custo">{sk.custo.length ? sk.custo.map((e, j) => <Chip key={j} e={e} />) : <span style={{ fontSize: ".72rem", fontWeight: 700, color: "#f2b705" }}>Grátis</span>}</span>
                     <span className="jg-sk-desc">{sk.desc}</span>
                     <span className="jg-sk-meta">{cd > 0 ? `Disponível em ${cd} turno${cd > 1 ? "s" : ""}` : sk.cd ? `Espera: ${sk.cd} turnos` : "Sem espera"}</span>
                   </button>
