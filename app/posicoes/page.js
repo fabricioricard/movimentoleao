@@ -48,7 +48,7 @@ const LATERAIS = [
   {
     nome: "Conselho",
     quem: "Decide os rumos do movimento.",
-    como: "Escolhidos por todos os membros do grupo: 5 pessoas, com mandato de 4 anos.",
+    como: "Eleitos por todos os associados formalizados com direitos associativos ativos: 5 pessoas, com mandato de 4 anos.",
   },
   {
     nome: "Honraria",

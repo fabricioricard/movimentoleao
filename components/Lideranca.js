@@ -2,6 +2,9 @@ import Link from "next/link";
 import { SITE } from "../lib/config";
 import { COMO, NACIONAL, REGIOES, LATERAIS } from "../lib/lideranca-dados";
 
+// Como se chega ao Conselho (conforme o estatuto).
+const COMO_CONSELHO = "Eleitos por todos os associados formalizados com direitos associativos ativos: 5 pessoas, com mandato de 4 anos.";
+
 // Estrutura formal da organização.
 const ESTRUTURA = [
   {
@@ -176,7 +179,7 @@ export default function Lideranca() {
                     </li>
                   ))}
                 </ul>
-                <p className="org-lat-como"><b>Como chega:</b> {l.como}</p>
+                <p className="org-lat-como"><b>Como chega:</b> {l.nome === "Conselho" ? COMO_CONSELHO : l.como}</p>
               </li>
             ))}
           </ul>
