@@ -145,7 +145,7 @@ export default function Posicoes() {
             <ul className="laterais">
               {ESTRUTURA.map((p) => (
                 <li className="lateral" key={p.nome}>
-                  <h3>{p.nome}</h3>
+                  <h3 style={{ color: "var(--tinta)" }}>{p.nome}</h3>
                   <dl>
                     <dt>Papel</dt>
                     <dd>{p.papel}</dd>

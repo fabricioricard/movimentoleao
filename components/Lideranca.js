@@ -11,10 +11,12 @@ const ESTRUTURA = [
   {
     nome: "Diretoria Executiva",
     papel: "Presidente, Secretário-Geral e Tesoureiro.",
+    vagas: ["Presidente", "Secretário-Geral", "Tesoureiro"],
   },
   {
     nome: "Conselho Fiscal",
     papel: "Três integrantes que fiscalizam as contas.",
+    vagas: [null, null, null],
   },
 ];
 
@@ -189,6 +191,16 @@ export default function Lideranca() {
             {ESTRUTURA.map((e) => (
               <li className="org-lat-card" key={e.nome}>
                 <h3>{e.nome}</h3>
+                {e.vagas && (
+                  <ul className="org-lat-vagas">
+                    {e.vagas.map((cargo, i) => (
+                      <li key={i} className="org-lat-vaga">
+                        <Avatar ocupante={null} />
+                        <span>{cargo ? `${cargo} · Vaga aberta` : "Vaga aberta"}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <p className="org-lat-como"><b>Papel:</b> {e.papel}</p>
               </li>
             ))}

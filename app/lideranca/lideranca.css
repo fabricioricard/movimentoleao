@@ -102,4 +102,4 @@
 /* ---------- Estrutura (cartões brancos sobre fundo marinho) ---------- */
 .org-estrutura .org-lat-card { color: var(--tinta); }
 .org-estrutura .org-lat-card h3 { color: var(--tinta); }
-.org-estrutura .org-lat-como { margin-top: 12px; }
+.org-estrutura .org-lat-card h3 { margin-bottom: 16px; }
