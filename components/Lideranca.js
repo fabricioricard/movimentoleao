@@ -96,9 +96,6 @@ export default function Lideranca() {
             <li><b>{preenchidas}</b><span>preenchidas</span></li>
             <li><b>{vagas}</b><span>vagas abertas</span></li>
           </ul>
-          <p className="org-placar-nota">
-            A contagem inclui as posições da liderança, da equipe de Propaganda, do Conselho Nacional, da Diretoria Executiva e do Conselho Fiscal.
-          </p>
 
           <div className="org" style={{ "--n": REGIOES.length }}>
             <div className="org-topo">
