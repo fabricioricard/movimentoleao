@@ -6,7 +6,7 @@ import Rodape from "../../components/Rodape";
 export const metadata = {
   title: "Posições do movimento — LEAO",
   description:
-    "Quem faz o quê no Movimento LEAO e como se chega a cada posição: Recruta, Líder Municipal, Líder Estadual, Líder Regional, Líder Nacional, Propaganda, Conselho e Honraria. Também a estrutura formal: Assembleia Geral, Diretoria Executiva e Conselho Fiscal.",
+    "Quem faz o quê no Movimento LEAO e como se chega a cada posição: Recruta, Líder Municipal, Líder Estadual, Líder Regional, Líder Nacional, Propaganda, Conselho Nacional e Honraria. Também a estrutura formal: Assembleia Geral, Diretoria Executiva e Conselho Fiscal.",
 };
 
 // A escada: posições em sequência, uma depois da outra.
@@ -34,7 +34,7 @@ const ESCADA = [
   {
     nome: "Líder Nacional",
     quem: "Coordena o movimento em nível nacional.",
-    como: "Escolhido pelo Conselho, com mandato de 4 anos.",
+    como: "Escolhido pelo Conselho Nacional, com mandato de 4 anos.",
   },
 ];
 
@@ -42,13 +42,13 @@ const ESCADA = [
 const LATERAIS = [
   {
     nome: "Propaganda",
-    quem: "Cuida de conteúdo, discurso e redes.",
-    como: "Escolhidos pelo Líder Nacional para desempenhar essa função.",
+    quem: "Equipe que cuida de conteúdo, discurso e redes.",
+    como: "Escolhidos pelo Líder Nacional, que define quantas pessoas compõem a equipe.",
   },
   {
-    nome: "Conselho",
+    nome: "Conselho Nacional",
     quem: "Decide os rumos do movimento.",
-    como: "Eleitos por todos os associados formalizados com direitos associativos ativos: 5 pessoas, com mandato de 4 anos.",
+    como: "Eleitos por todos os associados formalizados com direitos associativos ativos. São 5 integrantes, com mandato de 4 anos.",
   },
   {
     nome: "Honraria",
@@ -61,11 +61,11 @@ const LATERAIS = [
 const ESTRUTURA = [
   {
     nome: "Assembleia Geral",
-    papel: "Todos os associados formalizados com direitos ativos.",
+    papel: "Reúne todos os associados formalizados em pleno gozo de seus direitos associativos. É a instância soberana da associação.",
   },
   {
     nome: "Diretoria Executiva",
-    papel: "Presidente, Secretário-Geral e Tesoureiro.",
+    papel: "Presidente, Secretário-Geral e Tesoureiro. A Tesouraria, sob responsabilidade do Tesoureiro, administra os recursos financeiros, controla receitas e despesas e organiza a prestação de contas.",
   },
   {
     nome: "Conselho Fiscal",
@@ -111,6 +111,9 @@ export default function Posicoes() {
                 </li>
               ))}
             </ol>
+            <p className="secao-intro" style={{ marginTop: 28 }}>
+              A condição de Recruta não implica admissão automática como associado formal. Os direitos associativos e o direito a voto dependem de admissão conforme o Estatuto Social.
+            </p>
           </div>
         </section>
 

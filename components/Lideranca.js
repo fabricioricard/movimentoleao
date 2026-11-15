@@ -2,18 +2,15 @@ import Link from "next/link";
 import { SITE } from "../lib/config";
 import { COMO, NACIONAL, REGIOES, LATERAIS } from "../lib/lideranca-dados";
 
-// Como se chega ao Conselho (conforme o estatuto).
-const COMO_CONSELHO = "Eleitos por todos os associados formalizados com direitos associativos ativos: 5 pessoas, com mandato de 4 anos.";
-
 // Estrutura formal da organização.
 const ESTRUTURA = [
   {
     nome: "Assembleia Geral",
-    papel: "Todos os associados formalizados com direitos ativos.",
+    papel: "Reúne todos os associados formalizados em pleno gozo de seus direitos associativos. É a instância soberana da associação.",
   },
   {
     nome: "Diretoria Executiva",
-    papel: "Presidente, Secretário-Geral e Tesoureiro.",
+    papel: "Presidente, Secretário-Geral e Tesoureiro. A Tesouraria, sob responsabilidade do Tesoureiro, administra os recursos financeiros, controla receitas e despesas e organiza a prestação de contas.",
     vagas: ["Presidente", "Secretário-Geral", "Tesoureiro"],
   },
   {
@@ -154,7 +151,7 @@ export default function Lideranca() {
               <div>
                 <span className="org-cargo">Recrutas</span>
                 <h3 className="org-lugar">Todo mundo começa aqui</h3>
-                <p className="org-como">Quem entra no grupo hoje já é Recruta. Basta entrar, sem outro requisito. A partir daí, a pessoa pode ser escolhida para liderar a sua cidade.</p>
+                <p className="org-como">Quem entra no grupo hoje já é Recruta. Basta entrar, sem outro requisito. A partir daí, a pessoa pode ser escolhida para liderar a sua cidade. Ser Recruta não implica admissão automática como associado formal: os direitos associativos e o direito a voto dependem de admissão conforme o Estatuto Social.</p>
               </div>
               <a className="pilula pilula-ouro" href={SITE.whatsapp} target="_blank" rel="noopener noreferrer">Quero ser Recruta</a>
             </div>
@@ -165,7 +162,7 @@ export default function Lideranca() {
       <section className="bloco bloco-gelo org-lateral" aria-labelledby="org-lat-titulo">
         <div className="container">
           <h2 className="titulo-secao junto" id="org-lat-titulo">Ao lado da escada</h2>
-          <p className="secao-intro">Propaganda, Conselho e Honraria estão com as vagas abertas.</p>
+          <p className="secao-intro">Propaganda, Conselho Nacional e Honraria estão com as vagas abertas.</p>
           <ul className="org-lat-grade">
             {LATERAIS.map((l) => (
               <li className="org-lat-card" key={l.nome}>
@@ -179,7 +176,7 @@ export default function Lideranca() {
                     </li>
                   ))}
                 </ul>
-                <p className="org-lat-como"><b>Como chega:</b> {l.nome === "Conselho" ? COMO_CONSELHO : l.como}</p>
+                <p className="org-lat-como"><b>Como chega:</b> {l.como}</p>
               </li>
             ))}
           </ul>
