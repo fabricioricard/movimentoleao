@@ -43,12 +43,12 @@ const LATERAIS = [
   {
     nome: "Propaganda",
     quem: "Equipe que cuida de conteúdo, discurso e redes.",
-    como: "Escolhidos pelo Líder Nacional, que define quantas pessoas compõem a equipe.",
+    como: "A equipe é formada por pessoas escolhidas pelo Líder Nacional, que também define sua composição.",
   },
   {
     nome: "Conselho Nacional",
     quem: "Decide os rumos do movimento.",
-    como: "Eleitos por todos os associados formalizados com direitos associativos ativos. São 5 integrantes, com mandato de 4 anos.",
+    como: "Eleitos diretamente pelos associados formalizados em pleno gozo de seus direitos associativos. São 5 integrantes, com mandato de 4 anos.",
   },
   {
     nome: "Honraria",
@@ -65,7 +65,7 @@ const ESTRUTURA = [
   },
   {
     nome: "Diretoria Executiva",
-    papel: "Presidente, Secretário-Geral e Tesoureiro. A Tesouraria, sob responsabilidade do Tesoureiro, administra os recursos financeiros, controla receitas e despesas e organiza a prestação de contas.",
+    papel: "Composta por Presidente, Secretário-Geral e Tesoureiro. A Diretoria administra a associação, enquanto a Tesouraria, sob responsabilidade do Tesoureiro, controla receitas, despesas e recursos financeiros.",
   },
   {
     nome: "Conselho Fiscal",
@@ -156,6 +156,12 @@ export default function Posicoes() {
                 </li>
               ))}
             </ul>
+            <div style={{ marginTop: 32, display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 20px" }}>
+              <span className="secao-intro" style={{ margin: 0 }}>Leia aqui o Estatuto:</span>
+              <a className="pilula pilula-ouro" href="/estatuto-social.pdf" target="_blank" rel="noopener noreferrer">
+                Estatuto Social (PDF)
+              </a>
+            </div>
           </div>
         </section>
 

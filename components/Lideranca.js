@@ -10,7 +10,7 @@ const ESTRUTURA = [
   },
   {
     nome: "Diretoria Executiva",
-    papel: "Presidente, Secretário-Geral e Tesoureiro. A Tesouraria, sob responsabilidade do Tesoureiro, administra os recursos financeiros, controla receitas e despesas e organiza a prestação de contas.",
+    papel: "Composta por Presidente, Secretário-Geral e Tesoureiro. A Diretoria administra a associação, enquanto a Tesouraria, sob responsabilidade do Tesoureiro, controla receitas, despesas e recursos financeiros.",
     vagas: ["Presidente", "Secretário-Geral", "Tesoureiro"],
   },
   {
