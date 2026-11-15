@@ -1,24 +1,6 @@
 import Link from "next/link";
 import { SITE } from "../lib/config";
-import { COMO, NACIONAL, REGIOES, LATERAIS } from "../lib/lideranca-dados";
-
-// Estrutura formal da organização.
-const ESTRUTURA = [
-  {
-    nome: "Assembleia Geral",
-    papel: "Reúne todos os associados formalizados em pleno gozo de seus direitos associativos. É a instância soberana da associação.",
-  },
-  {
-    nome: "Diretoria Executiva",
-    papel: "Composta por Presidente, Secretário-Geral e Tesoureiro. A Diretoria administra a associação, enquanto a Tesouraria, sob responsabilidade do Tesoureiro, controla receitas, despesas e recursos financeiros.",
-    vagas: ["Presidente", "Secretário-Geral", "Tesoureiro"],
-  },
-  {
-    nome: "Conselho Fiscal",
-    papel: "Três integrantes que fiscalizam as contas.",
-    vagas: [null, null, null],
-  },
-];
+import { COMO, NACIONAL, REGIOES, LATERAIS, ESTRUTURA } from "../lib/lideranca-dados";
 
 function Silhueta() {
   return (
@@ -90,6 +72,9 @@ function contar() {
     if (l.contar === false) return;
     l.vagas.forEach(soma);
   });
+  ESTRUTURA.forEach((e) => {
+    (e.vagas || []).forEach((v) => soma(v.ocupante));
+  });
   return { total, vagas, preenchidas: total - vagas };
 }
 
@@ -103,7 +88,7 @@ export default function Lideranca() {
         <div className="container">
           <h2 className="titulo-secao junto" id="org-titulo">Quem lidera hoje</h2>
           <p className="secao-intro">
-            O LEAO está começando. O fundador lidera por enquanto e as demais posições estão com a vaga aberta.
+            O LEAO está começando. O fundador exerce a liderança provisoriamente e quase todas as demais posições estão com a vaga aberta.
           </p>
 
           <ul className="org-placar" aria-label="Resumo">
@@ -111,6 +96,9 @@ export default function Lideranca() {
             <li><b>{preenchidas}</b><span>preenchidas</span></li>
             <li><b>{vagas}</b><span>vagas abertas</span></li>
           </ul>
+          <p className="org-placar-nota">
+            A contagem inclui as posições da liderança, da equipe de Propaganda, do Conselho Nacional, da Diretoria Executiva e do Conselho Fiscal.
+          </p>
 
           <div className="org" style={{ "--n": REGIOES.length }}>
             <div className="org-topo">
@@ -162,7 +150,7 @@ export default function Lideranca() {
       <section className="bloco bloco-gelo org-lateral" aria-labelledby="org-lat-titulo">
         <div className="container">
           <h2 className="titulo-secao junto" id="org-lat-titulo">Ao lado da escada</h2>
-          <p className="secao-intro">Propaganda, Conselho Nacional e Honraria estão com as vagas abertas.</p>
+          <p className="secao-intro">A equipe de Propaganda e o Conselho Nacional têm vagas a preencher. A Honraria é uma distinção, não um cargo.</p>
           <ul className="org-lat-grade">
             {LATERAIS.map((l) => (
               <li className="org-lat-card" key={l.nome}>
@@ -197,12 +185,15 @@ export default function Lideranca() {
                 <h3>{e.nome}</h3>
                 {e.vagas && (
                   <ul className="org-lat-vagas">
-                    {e.vagas.map((cargo, i) => (
-                      <li key={i} className="org-lat-vaga">
-                        <Avatar ocupante={null} />
-                        <span>{cargo ? `${cargo} · Vaga aberta` : "Vaga aberta"}</span>
-                      </li>
-                    ))}
+                    {e.vagas.map((v, i) => {
+                      const nome = v.ocupante && v.ocupante.nome;
+                      return (
+                        <li key={i} className={nome ? "" : "org-lat-vaga"}>
+                          <Avatar ocupante={v.ocupante} />
+                          <span>{nome ? (v.cargo ? `${v.cargo}: ${nome}` : nome) : v.cargo ? `${v.cargo} · Vaga aberta` : "Vaga aberta"}</span>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
                 <p className="org-lat-como"><b>Papel:</b> {e.papel}</p>
