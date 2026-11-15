@@ -2,6 +2,22 @@ import Link from "next/link";
 import { SITE } from "../lib/config";
 import { COMO, NACIONAL, REGIOES, LATERAIS } from "../lib/lideranca-dados";
 
+// Estrutura formal da organização.
+const ESTRUTURA = [
+  {
+    nome: "Assembleia Geral",
+    papel: "Todos os associados formalizados com direitos ativos.",
+  },
+  {
+    nome: "Diretoria Executiva",
+    papel: "Presidente, Secretário-Geral e Tesoureiro.",
+  },
+  {
+    nome: "Conselho Fiscal",
+    papel: "Três integrantes que fiscalizam as contas.",
+  },
+];
+
 function Silhueta() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -159,6 +175,21 @@ export default function Lideranca() {
                   ))}
                 </ul>
                 <p className="org-lat-como"><b>Como chega:</b> {l.como}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="bloco bloco-marinho org-estrutura" aria-labelledby="org-est-titulo">
+        <div className="container">
+          <h2 className="titulo-secao junto" id="org-est-titulo">Estrutura</h2>
+          <p className="secao-intro">A organização formal do movimento: quem reúne os associados, quem executa e quem fiscaliza.</p>
+          <ul className="org-lat-grade">
+            {ESTRUTURA.map((e) => (
+              <li className="org-lat-card" key={e.nome}>
+                <h3>{e.nome}</h3>
+                <p className="org-lat-como"><b>Papel:</b> {e.papel}</p>
               </li>
             ))}
           </ul>

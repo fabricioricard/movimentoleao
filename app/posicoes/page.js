@@ -6,7 +6,7 @@ import Rodape from "../../components/Rodape";
 export const metadata = {
   title: "Posições do movimento — LEAO",
   description:
-    "Quem faz o quê no Movimento LEAO e como se chega a cada posição: Recruta, Líder Municipal, Líder Estadual, Líder Regional, Líder Nacional, Propaganda, Conselho e Honraria.",
+    "Quem faz o quê no Movimento LEAO e como se chega a cada posição: Recruta, Líder Municipal, Líder Estadual, Líder Regional, Líder Nacional, Propaganda, Conselho e Honraria. Também a estrutura formal: Assembleia Geral, Diretoria Executiva e Conselho Fiscal.",
 };
 
 // A escada: posições em sequência, uma depois da outra.
@@ -54,6 +54,22 @@ const LATERAIS = [
     nome: "Honraria",
     quem: "Reconhecimento por feitos, fora da escada.",
     como: "Vagas limitadas, por desempenho.",
+  },
+];
+
+// Estrutura formal da organização.
+const ESTRUTURA = [
+  {
+    nome: "Assembleia Geral",
+    papel: "Todos os associados formalizados com direitos ativos.",
+  },
+  {
+    nome: "Diretoria Executiva",
+    papel: "Presidente, Secretário-Geral e Tesoureiro.",
+  },
+  {
+    nome: "Conselho Fiscal",
+    papel: "Três integrantes que fiscalizam as contas.",
   },
 ];
 
@@ -113,6 +129,26 @@ export default function Posicoes() {
                     <dd>{p.quem}</dd>
                     <dt>Como chega</dt>
                     <dd>{p.como}</dd>
+                  </dl>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="bloco bloco-marinho" aria-labelledby="titulo-estrutura">
+          <div className="container">
+            <h2 className="titulo-secao junto" id="titulo-estrutura">
+              Estrutura
+            </h2>
+            <p className="secao-intro">A organização formal do movimento: quem reúne os associados, quem executa e quem fiscaliza.</p>
+            <ul className="laterais">
+              {ESTRUTURA.map((p) => (
+                <li className="lateral" key={p.nome}>
+                  <h3>{p.nome}</h3>
+                  <dl>
+                    <dt>Papel</dt>
+                    <dd>{p.papel}</dd>
                   </dl>
                 </li>
               ))}

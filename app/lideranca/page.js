@@ -6,7 +6,7 @@ import "./lideranca.css";
 export const metadata = {
   title: "Quem lidera — LEAO",
   description:
-    "O esquema de lideranças do Movimento LEAO: Líder Nacional, regionais, estaduais e municipais, Propaganda, Conselho e Honraria, e quais vagas estão abertas.",
+    "O esquema de lideranças do Movimento LEAO: Líder Nacional, regionais, estaduais e municipais, Propaganda, Conselho e Honraria, quais vagas estão abertas e a estrutura formal (Assembleia Geral, Diretoria Executiva e Conselho Fiscal).",
   alternates: { canonical: "/lideranca" },
 };
 
