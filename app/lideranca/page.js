@@ -4,7 +4,7 @@ import Lideranca from "../../components/Lideranca";
 import "./lideranca.css";
 
 export const metadata = {
-  title: "Quem lidera — LEAO",
+  title: "Quem lidera o movimento — LEAO",
   description:
     "O esquema de lideranças do Movimento LEAO: Líder Nacional, regionais, estaduais e municipais, Propaganda, Conselho Nacional e Honraria, quais vagas estão abertas e a estrutura formal (Assembleia Geral, Diretoria Executiva e Conselho Fiscal).",
   alternates: { canonical: "/lideranca" },

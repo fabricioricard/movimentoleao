@@ -168,14 +168,18 @@ export default function Lideranca() {
               <li className="org-lat-card" key={l.nome}>
                 <h3>{l.nome}</h3>
                 <p className="org-lat-quem">{l.quem}</p>
-                <ul className="org-lat-vagas">
-                  {l.vagas.map((o, i) => (
-                    <li key={i} className={o && o.nome ? "" : "org-lat-vaga"}>
-                      <Avatar ocupante={o} />
-                      <span>{o && o.nome ? o.nome : "Vaga aberta"}</span>
-                    </li>
-                  ))}
-                </ul>
+                {l.aviso ? (
+                  <p className="org-lat-quem">{l.aviso}</p>
+                ) : (
+                  <ul className="org-lat-vagas">
+                    {l.vagas.map((o, i) => (
+                      <li key={i} className={o && o.nome ? "" : "org-lat-vaga"}>
+                        <Avatar ocupante={o} />
+                        <span>{o && o.nome ? o.nome : l.rotuloVaga || "Vaga aberta"}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <p className="org-lat-como"><b>Como chega:</b> {l.como}</p>
               </li>
             ))}
