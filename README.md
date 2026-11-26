@@ -1,6 +1,6 @@
 # Movimento LEAO
 
-Site oficial do **Movimento LEAO**, iniciativa cívica da Bahia dedicada à responsabilidade fiscal, à transparência pública e à fiscalização cidadã.
+Site oficial do **Movimento LEAO**, iniciativa cívica dedicada à responsabilidade fiscal, à transparência pública e à fiscalização cidadã.
 
 **Produção:** [movimentoleao.com.br](https://movimentoleao.com.br)
 
